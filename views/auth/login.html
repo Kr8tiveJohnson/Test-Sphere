@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Sphere - Authentication Portal</title>
+    <!-- Tailwind CSS v4 Engine -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        /* Custom Keyframe Animations matching your exact brand profile */
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.15; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.05); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+
+        /* Subtle Slow Rotation for the Integrated Portal Header Logo */
+        @keyframes header-sphere-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .animate-header-sphere {
+            animation: header-sphere-spin 12s infinite linear;
+        }
+    </style>
+</head>
+<body class="bg-[#f0ebfa] text-slate-700 font-sans min-h-screen flex items-center justify-center relative overflow-x-hidden selection:bg-[#6c5dd3]/30 p-4">
+
+    <!-- BACKGROUND BRANDED GLOW ORBS -->
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-[#6c5dd3] rounded-full filter blur-[140px] animate-pulse-glow pointer-events-none"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-300 rounded-full filter blur-[140px] animate-pulse-glow pointer-events-none" style="animation-delay: 1s;"></div>
+
+    <main id="auth-container" class="w-full max-w-xl transition-all relative z-10 my-auto">
+        
+        <!-- INTEGRATED BRAND HEADER -->
+        <div class="flex flex-col items-center mb-6 text-center">
+            <div class="h-12 w-12 relative flex items-center justify-center animate-header-sphere mb-3">
+                <div class="absolute inset-0 rounded-full border border-dashed border-[#6c5dd3]/40"></div>
+                <div class="absolute inset-1 rounded-full border border-[#6c5dd3]"></div>
+                <div class="h-5 w-5 bg-gradient-to-tr from-[#5b4cb8] to-[#6c5dd3] rounded-full shadow"></div>
+            </div>
+            <h1 class="text-2xl font-black tracking-tight text-[#1e1b4b]">
+                Test<span class="text-[#6c5dd3]">Sphere</span>
+            </h1>
+        </div>
+
+        <!-- AUTHENTICATION CARD GRID -->
+        <div class="bg-white/95 backdrop-blur-xl border border-slate-200/80 rounded-[32px] p-6 sm:p-10 shadow-[0_25px_60px_-15px_rgba(108,93,211,0.12)]">
+            
+            <!-- SEGMENT CONTROLLER (Premium Slider Bar Tracking Effect) -->
+            <div class="flex bg-[#f0ebfa] p-1.5 rounded-2xl border border-slate-200/40 mb-8 relative">
+                <!-- Sliding Bar Pill Indicator -->
+                <div id="slide-pill" class="absolute top-1.5 bottom-1.5 left-1.5 w-[calc(50%-6px)] bg-white rounded-xl shadow-sm transition-all duration-300 cubic-bezier(0.4, 0, 0.2, 1)"></div>
+                
+                <button id="tab-login" class="flex-1 text-center py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-[#6c5dd3] relative z-10 transition-colors duration-200 cursor-pointer">
+                    Sign In
+                </button>
+                <button id="tab-signup" class="flex-1 text-center py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-slate-700 relative z-10 transition-colors duration-200 cursor-pointer">
+                    Create Account
+                </button>
+            </div>
+
+            <!-- VIEW: SIGN IN PANEL -->
+            <div id="login-view" class="space-y-5 transition-opacity duration-200">
+                <div class="text-left mb-2">
+                    <h2 class="text-xl font-extrabold text-[#1e1b4b] tracking-tight">Welcome Back</h2>
+                    <p class="text-xs text-slate-400 mt-1">Please verify your credentials to access your Dashbaord.</p>
+                </div>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Email Address</label>
+                        <input type="email" id="login-email" required class="w-full bg-[#f0ebfa]/40 border border-slate-200 focus:bg-white rounded-xl px-4 py-3.5 text-xs text-[#1e1b4b] font-medium focus:outline-none focus:border-[#6c5dd3] focus:ring-4 focus:ring-[#6c5dd3]/5 transition-all" placeholder="oreoluwa@gmail.com">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Password</label>
+                        <input type="password" id="login-password" required class="w-full bg-[#f0ebfa]/40 border border-slate-200 focus:bg-white rounded-xl px-4 py-3.5 text-xs text-[#1e1b4b] font-medium focus:outline-none focus:border-[#6c5dd3] focus:ring-4 focus:ring-[#6c5dd3]/5 transition-all" placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="w-full bg-[#6c5dd3] hover:bg-[#5b4cb8] text-white font-bold text-xs py-4 rounded-xl uppercase tracking-wider shadow-md shadow-[#6c5dd3]/10 active:scale-[0.99] transition-all cursor-pointer mt-2">
+                        Enter Dashboard
+                    </button>
+                </form>
+            </div>
+
+            <!-- VIEW: REGISTER CREDENTIALS PANEL -->
+            <div id="signup-view" class="hidden space-y-5 transition-opacity duration-200">
+                <div class="text-left mb-2">
+                    <h2 class="text-xl font-extrabold text-[#1e1b4b] tracking-tight">Set Up Your Account</h2>
+                    <p class="text-xs text-slate-400 mt-1">Secure access for students and staff.</p>
+                </div>
+
+                <!-- Role Selection Toggles Matrix -->
+                <div class="grid grid-cols-2 gap-4 mb-2">
+                    <label class="border-2 border-[#6c5dd3] bg-[#f0ebfa]/60 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition-all shadow-sm" id="role-student-label">
+                        <span class="text-xs font-bold text-[#1e1b4b]">I am a Student</span>
+                        <input type="radio" name="user-role" value="student" checked class="accent-[#6c5dd3] w-4 h-4">
+                    </label>
+                    <label class="border-2 border-slate-100 bg-[#f0ebfa]/10 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition-all" id="role-lecturer-label">
+                        <span class="text-xs font-bold text-slate-400" id="lecturer-text-label">I am a Lecturer</span>
+                        <input type="radio" name="user-role" value="lecturer" class="accent-[#6c5dd3] w-4 h-4">
+                    </label>
+                </div>
+
+                <form class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Full Name</label>
+                            <input type="text" required class="w-full bg-[#f0ebfa]/40 border border-slate-200 focus:bg-white rounded-xl px-4 py-3.5 text-xs text-[#1e1b4b] font-medium focus:outline-none focus:border-[#6c5dd3] focus:ring-4 focus:ring-[#6c5dd3]/5 transition-all" placeholder="Oreoluwa ">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Institution Name</label>
+                            <input type="text" id="institution-field" required class="w-full bg-[#f0ebfa]/40 border border-slate-200 focus:bg-white rounded-xl px-4 py-3.5 text-xs text-[#1e1b4b] font-medium focus:outline-none focus:border-[#6c5dd3] focus:ring-4 focus:ring-[#6c5dd3]/5 transition-all" placeholder="Lagos State University of Education">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Email Address</label>
+                        <input type="email" id="signup-email" required class="w-full bg-[#f0ebfa]/40 border border-slate-200 focus:bg-white rounded-xl px-4 py-3.5 text-xs text-[#1e1b4b] font-medium focus:outline-none focus:border-[#6c5dd3] focus:ring-4 focus:ring-[#6c5dd3]/5 transition-all" placeholder="oreluwa@gmail.com">
+                    </div>
+
+                    <!-- Layout Matrix Option: Student Variant Input -->
+                    <div id="student-inputs" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Matric Number</label>
+                            <input type="text" id="matric-field" required class="w-full bg-[#f0ebfa]/40 border border-slate-200 focus:bg-white rounded-xl px-4 py-3.5 text-xs text-[#1e1b4b] font-medium focus:outline-none focus:border-[#6c5dd3] focus:ring-4 focus:ring-[#6c5dd3]/5 transition-all" placeholder="CSC/2022/001">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Current Level</label>
+                            <div class="relative">
+                                <select id="level-field" class="w-full bg-[#f0ebfa]/40 border border-slate-200 focus:bg-white rounded-xl px-4 py-3.5 text-xs text-[#1e1b4b] font-medium focus:outline-none focus:border-[#6c5dd3] appearance-none transition-all">
+                                    <option>100 Level</option>
+                                    <option>200 Level</option>
+                                    <option>300 Level</option>
+                                    <option>400 Level</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layout Matrix Option: Lecturer Variant Input -->
+                    <div id="lecturer-inputs" class="hidden space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Staff ID Code</label>
+                                <div class="flex gap-2">
+                                    <input type="text" id="staff-field" class="w-full bg-[#f0ebfa]/40 border border-slate-200 focus:bg-white rounded-xl px-4 py-3.5 text-xs text-[#1e1b4b] font-medium focus:outline-none focus:border-[#6c5dd3]" placeholder="STF-XXXX">
+                                    <button type="button" id="generate-code-btn" class="bg-[#f0ebfa] hover:bg-[#6c5dd3]/10 text-[#6c5dd3] border border-[#6c5dd3]/20 px-4 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap">Generate</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase tracking-widest text-amber-600 mb-2">Email Access Passcode</label>
+                                <div class="flex gap-2">
+                                    <input type="text" id="token-field" class="w-full bg-amber-50/20 border border-amber-200 focus:bg-white rounded-xl px-4 py-3.5 text-xs text-amber-900 font-medium focus:outline-none focus:border-amber-500" placeholder="6-Digit Token">
+                                    <button type="button" id="request-token-btn" class="bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 px-4 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap">Send Code</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Choose Password</label>
+                            <input type="password" required class="w-full bg-[#f0ebfa]/40 border border-slate-200 focus:bg-white rounded-xl px-4 py-3.5 text-xs text-[#1e1b4b] font-medium focus:outline-none focus:border-[#6c5dd3] focus:ring-4 focus:ring-[#6c5dd3]/5 transition-all" placeholder="••••••••">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Confirm Password</label>
+                            <input type="password" required class="w-full bg-[#f0ebfa]/40 border border-slate-200 focus:bg-white rounded-xl px-4 py-3.5 text-xs text-[#1e1b4b] font-medium focus:outline-none focus:border-[#6c5dd3] focus:ring-4 focus:ring-[#6c5dd3]/5 transition-all" placeholder="••••••••">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submit-signup-btn" class="w-full bg-[#6c5dd3] hover:bg-[#5b4cb8] text-white font-bold text-xs py-4 rounded-xl uppercase tracking-wider shadow-md shadow-[#6c5dd3]/10 active:scale-[0.99] transition-all cursor-pointer mt-2">
+                        Complete Registration
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- AUTOMATION ROUTING ENGINE LAYER -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const tabLogin = document.getElementById("tab-login");
+            const tabSignup = document.getElementById("tab-signup");
+            const loginView = document.getElementById("login-view");
+            const signupView = document.getElementById("signup-view");
+            const slidePill = document.getElementById("slide-pill");
+
+            // Premium Slide Bar Toggles Event Handler
+            tabLogin.addEventListener("click", () => {
+                signupView.classList.add("hidden"); 
+                loginView.classList.remove("hidden");
+                
+                // Slide Effect CSS Execution
+                slidePill.style.left = "6px";
+                
+                tabLogin.className = "flex-1 text-center py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-[#6c5dd3] relative z-10 transition-colors duration-200 cursor-pointer";
+                tabSignup.className = "flex-1 text-center py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-slate-700 relative z-10 transition-colors duration-200 cursor-pointer";
+            });
+            
+            tabSignup.addEventListener("click", () => {
+                loginView.classList.add("hidden"); 
+                signupView.classList.remove("hidden");
+                
+                // Slide Effect CSS Execution (Shift perfectly onto second option pill container)
+                slidePill.style.left = "calc(50% - 0px)";
+                
+                tabSignup.className = "flex-1 text-center py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-[#6c5dd3] relative z-10 transition-colors duration-200 cursor-pointer";
+                tabLogin.className = "flex-1 text-center py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-slate-700 relative z-10 transition-colors duration-200 cursor-pointer";
+            });
+
+            // Staff Code Generator
+            document.getElementById("generate-code-btn").addEventListener("click", () => {
+                document.getElementById("staff-field").value = `STF-${Math.floor(1000 + Math.random() * 9000)}`;
+            });
+
+            // ASYNC: REQUEST DIGITAL EMAIL TOKEN
+            document.getElementById("request-token-btn").addEventListener("click", async () => {
+                const email = document.getElementById("signup-email").value;
+                if(!email) return alert("Please fill in your Institutional Email field first!");
+
+                const response = await fetch("/api/auth/request-token", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email })
+                });
+                const data = await response.json();
+                alert(data.message);
+            });
+
+            // Dynamic Form Radio Selection Matrix Styles Adjustment
+            const roleRadios = document.querySelectorAll('input[name="user-role"]');
+            const studentInputs = document.getElementById("student-inputs");
+            const lecturerInputs = document.getElementById("lecturer-inputs");
+            const studentLabel = document.getElementById("role-student-label");
+            const lecturerLabel = document.getElementById("role-lecturer-label");
+            const lecturerText = document.getElementById("lecturer-text-label");
+
+            roleRadios.forEach(radio => {
+                radio.addEventListener("change", (e) => {
+                    if (e.target.value === "student") {
+                        lecturerInputs.classList.add("hidden"); 
+                        studentInputs.classList.remove("hidden");
+                        document.getElementById("matric-field").required = true;
+                        document.getElementById("staff-field").required = false; 
+                        document.getElementById("token-field").required = false;
+
+                        // Visual Border/Text Color Toggles
+                        studentLabel.className = "border-2 border-[#6c5dd3] bg-[#f0ebfa]/60 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition-all shadow-sm";
+                        lecturerLabel.className = "border-2 border-slate-100 bg-[#f0ebfa]/10 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition-all";
+                        lecturerText.className = "text-xs font-bold text-slate-400";
+                    } else {
+                        studentInputs.classList.add("hidden"); 
+                        lecturerInputs.classList.remove("hidden");
+                        document.getElementById("matric-field").required = false;
+                        document.getElementById("staff-field").required = true; 
+                        document.getElementById("token-field").required = true;
+
+                        // Visual Border/Text Color Toggles
+                        lecturerLabel.className = "border-2 border-[#6c5dd3] bg-[#f0ebfa]/60 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition-all shadow-sm";
+                        studentLabel.className = "border-2 border-slate-100 bg-[#f0ebfa]/10 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition-all";
+                        lecturerText.className = "text-xs font-bold text-[#1e1b4b]";
+                    }
+                });
+            });
+
+            // Submit Login Form Logic
+            const loginForm = document.querySelector("#login-view form");
+            loginForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const email = document.getElementById("login-email").value;
+                const password = document.getElementById("login-password").value;
+
+                try {
+                    const response = await fetch("/api/auth/login", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email, password })
+                    });
+                    const data = await response.json();
+
+                    if (data.success) {
+                        alert(data.message);
+                        if (data.role === "admin") window.location.href = "/admin/dashboard";
+                        else if (data.role === "lecturer") window.location.href = "/lecturer/builder";
+                        else if (data.role === "student") window.location.href = "/student/portal";
+                    } else {
+                        alert(data.message);
+                    }
+                } catch (err) {
+                    console.error("Login Error:", err);
+                    alert("Unable to reach authentication server.");
+                }
+            });
+
+            // Submit Registration
+            const signupForm = document.querySelector("#signup-view form");
+            signupForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const role = document.querySelector("input[name='user-role']:checked").value;
+                const passwordInputs = signupForm.querySelectorAll("input[type='password']");
+                
+                if (passwordInputs[0].value !== passwordInputs[1].value) return alert("Passwords do not match!");
+
+                let payload = {
+                    name: signupForm.querySelector("input[placeholder='John Doe']").value,
+                    institution: document.getElementById("institution-field").value,
+                    email: document.getElementById("signup-email").value,
+                    role: role,
+                    password: passwordInputs[0].value
+                };
+
+                if (role === "student") {
+                    payload.matricNumber = document.getElementById("matric-field").value;
+                    payload.level = document.getElementById("level-field").value;
+                } else {
+                    payload.staffId = document.getElementById("staff-field").value;
+                    payload.deptToken = document.getElementById("token-field").value;
+                }
+
+                const response = await fetch("/api/auth/signup", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                const data = await response.json();
+                if(data.success) {
+                    alert("Account setup complete!"); 
+                    tabLogin.click(); 
+                    signupForm.reset();
+                } else {
+                    alert(data.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

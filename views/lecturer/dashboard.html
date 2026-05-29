@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Sphere — Lecturer Control Hub</title>
+    <!-- Tailwind CSS v4 Engine -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.15; transform: scale(1); }
+            50% { opacity: 0.25; transform: scale(1.02); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-[#f0ebfa] text-slate-700 font-sans min-h-screen relative overflow-x-hidden selection:bg-[#6c5dd3]/30">
+
+    <!-- BACKGROUND BRANDED GLOW ORBS -->
+    <div class="absolute top-0 right-0 w-[250px] sm:w-[500px] h-[250px] sm:h-[500px] bg-[#6c5dd3] rounded-full filter blur-[80px] sm:blur-[150px] animate-pulse-glow pointer-events-none z-0"></div>
+    <div class="absolute bottom-0 left-0 w-[250px] sm:w-[500px] h-[250px] sm:h-[500px] bg-purple-300 rounded-full filter blur-[80px] sm:blur-[150px] animate-pulse-glow pointer-events-none z-0" style="animation-delay: 1.5s;"></div>
+
+    <!-- SIDEBAR DARK DRAWER OVERLAY (MOBILE ONLY) -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/40 opacity-0 pointer-events-none transition-opacity duration-300 z-40 lg:hidden" onclick="toggleSidebar()"></div>
+    
+    <!-- SYSTEM NAVIGATION SIDEBAR (Fixed Drawer on Mobile, Locked Sidebar on Desktop) -->
+    <aside id="dashboard-sidebar" class="fixed top-0 bottom-0 left-0 w-[280px] sm:w-[320px] lg:w-[320px] bg-white/95 backdrop-blur-md border-r border-slate-200/80 p-5 sm:p-6 shadow-2xl lg:shadow-md transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-50 flex flex-col justify-between">
+        
+        <div class="space-y-6">
+            <!-- Sidebar Header Brand Block -->
+            <div class="flex items-center justify-between border-b border-slate-100/80 pb-4">
+                <div class="flex items-center gap-2.5">
+                    <div class="h-8 w-8 relative flex items-center justify-center shrink-0">
+                        <div class="absolute inset-0 rounded-full border border-dashed border-[#6c5dd3]/60"></div>
+                        <div class="h-3 w-3 bg-[#6c5dd3] rounded-full"></div>
+                    </div>
+                    <h1 class="text-lg font-black tracking-tight text-[#1e1b4b]">Test<span class="text-[#6c5dd3]">Sphere</span></h1>
+                </div>
+                <!-- Interactive Close Trigger (Hidden on Desktop) -->
+                <button onclick="toggleSidebar()" class="lg:hidden h-8 w-8 rounded-xl bg-[#f0ebfa] text-[#6c5dd3] font-black text-xs flex items-center justify-center cursor-pointer hover:bg-[#6c5dd3]/20 transition-all">✕</button>
+            </div>
+
+            <!-- Lecturer Info Block Card Profile -->
+            <div class="bg-[#f0ebfa]/40 border border-[#6c5dd3]/10 rounded-2xl p-4 relative overflow-hidden">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="h-10 w-10 bg-gradient-to-tr from-[#5b4cb8] to-[#6c5dd3] rounded-xl flex items-center justify-center text-white text-sm font-black shadow-sm shrink-0">
+                        KJ
+                    </div>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-0.5">
+                            <h2 class="text-xs font-black text-[#1e1b4b] truncate">Prof. Kr8tive Johnson</h2>
+                            <span class="text-emerald-500 text-xs shrink-0">🛡️</span>
+                        </div>
+                        <p class="text-[10px] font-semibold text-[#6c5dd3] truncate">Senior Faculty Instructor</p>
+                    </div>
+                </div>
+
+                <div class="space-y-2 pt-2.5 border-t border-dashed border-slate-200 text-[11px]">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-slate-400 uppercase tracking-wider text-[9px]">Staff ID</span>
+                        <span class="font-mono font-bold text-[#1e1b4b]">STF-8842</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-slate-400 uppercase tracking-wider text-[9px]">Department</span>
+                        <span class="font-bold text-[#1e1b4b] truncate max-w-[130px]">Computer Science</span>
+                    </div>
+                    <div class="flex flex-col gap-0.5 mt-1">
+                        <span class="font-bold text-slate-400 uppercase tracking-wider text-[9px]">Institutional Mail</span>
+                        <span class="font-medium text-slate-600 break-all">larrye1220@gmail.com</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INTERACTIVE ROUTING VECTOR BUTTONS -->
+            <nav class="space-y-2">
+                <span class="block text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1 px-1">Access Vectors</span>
+                
+                <a href="create-test.html" class="flex items-center justify-between p-3 bg-[#f0ebfa]/30 hover:bg-[#6c5dd3]/10 border border-slate-100 rounded-xl transition-all group w-full">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="text-base shrink-0">📝</span>
+                        <div class="min-w-0">
+                            <h4 class="text-xs font-bold text-[#1e1b4b] group-hover:text-[#6c5dd3] transition-colors truncate">Assessment Engine</h4>
+                            <p class="text-[10px] text-slate-400 truncate">Build & deploy test modules</p>
+                        </div>
+                    </div>
+                    <span class="text-slate-300 group-hover:text-[#6c5dd3] transition-colors text-xs font-bold pl-1 shrink-0">→</span>
+                </a>
+
+                <a href="analytics.html" class="flex items-center justify-between p-3 bg-[#f0ebfa]/30 hover:bg-[#6c5dd3]/10 border border-slate-100 rounded-xl transition-all group w-full">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="text-base shrink-0">📊</span>
+                        <div class="min-w-0">
+                            <h4 class="text-xs font-bold text-[#1e1b4b] group-hover:text-[#6c5dd3] transition-colors truncate">Analytics Vault</h4>
+                            <p class="text-[10px] text-slate-400 truncate">Track student metrics</p>
+                        </div>
+                    </div>
+                    <span class="text-slate-300 group-hover:text-[#6c5dd3] transition-colors text-xs font-bold pl-1 shrink-0">→</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- LOWER SIDEBAR ACTIONS BAR -->
+        <div class="border-t border-slate-100 pt-4">
+            <button onclick="window.location.href='../auth/login.html'" class="w-full text-center px-4 py-2.5 border border-red-100 hover:bg-red-50 text-red-600 bg-white rounded-xl text-xs font-bold shadow-sm transition-all cursor-pointer">
+                Disconnect Session
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN DATA DISPLAY COMPONENT CONTAINER (Responsive Workspace Adjustments) -->
+    <div class="lg:pl-[320px] transition-all duration-300">
+        <div class="max-w-5xl mx-auto px-4 py-4 sm:py-8 lg:py-10 space-y-6">
+            
+            <!-- MOBILE NAVIGATION UTILITY HEADER (Only visible when device layout collapses) -->
+            <header class="flex items-center justify-between bg-white/90 backdrop-blur-md border border-slate-200/80 px-4 py-3 rounded-2xl shadow-sm lg:hidden">
+                <div class="flex items-center gap-2">
+                    <div class="h-8 w-8 bg-gradient-to-tr from-[#5b4cb8] to-[#6c5dd3] rounded-xl flex items-center justify-center text-white text-xs font-black shadow-sm">KJ</div>
+                    <div class="text-left">
+                        <h1 class="text-xs font-black text-[#1e1b4b] tracking-tight">Prof. Kr8tive Johnson</h1>
+                        <p class="text-[9px] font-bold text-[#6c5dd3] uppercase tracking-wider">Lecturer Console</p>
+                    </div>
+                </div>
+                <button onclick="toggleSidebar()" class="px-3.5 py-1.5 bg-[#6c5dd3] text-white text-xs font-bold rounded-xl shadow-md hover:bg-[#5b4cb8] transition-colors cursor-pointer flex items-center gap-1.5">
+                    <span>Menu</span>
+                    <span class="text-[10px]">☰</span>
+                </button>
+            </header>
+
+            <!-- DESKTOP REPLACEMENT TOP HEADER BAR (Hidden completely on mobile) -->
+            <header class="hidden lg:flex justify-between items-center border-b border-slate-200/60 pb-5 mb-2">
+                <div>
+                    <h2 class="text-2xl font-black text-[#1e1b4b] tracking-tight">Lecturer Control Hub</h2>
+                    <p class="text-xs font-medium text-slate-400 mt-0.5">Real-time examination tracking pipelines and node modules.</p>
+                </div>
+                <div class="h-2.5 w-2.5 bg-emerald-500 rounded-full animate-ping" title="System Engine Online"></div>
+            </header>
+
+            <!-- ANALYTICS HARDWARE COUNTER CARDS -->
+            <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-white p-4 sm:p-5 rounded-xl border border-slate-200/60 shadow-sm flex flex-row sm:flex-col justify-between items-center sm:items-start gap-1">
+                    <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Total Modules</p>
+                    <h3 class="text-lg sm:text-2xl font-black text-[#1e1b4b]">5 <span class="text-xs font-normal text-slate-400">Courses</span></h3>
+                </div>
+                <div class="bg-white p-4 sm:p-5 rounded-xl border border-slate-200/60 shadow-sm flex flex-row sm:flex-col justify-between items-center sm:items-start gap-1">
+                    <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Active Pipelines</p>
+                    <h3 class="text-lg sm:text-2xl font-black text-[#6c5dd3]">2 <span class="text-xs font-normal text-[#6c5dd3]/70">Live</span></h3>
+                </div>
+                <div class="bg-white p-4 sm:p-5 rounded-xl border border-slate-200/60 shadow-sm flex flex-row sm:flex-col justify-between items-center sm:items-start gap-1">
+                    <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Monitored Students</p>
+                    <h3 class="text-lg sm:text-2xl font-black text-[#1e1b4b]">342 <span class="text-xs font-normal text-slate-400">Active</span></h3>
+                </div>
+            </section>
+
+            <!-- LIVE SYSTEM FEED REGISTRY -->
+            <main class="space-y-4">
+                <h3 class="text-xs font-black uppercase tracking-wider text-[#1e1b4b] px-1">Live Deployment Monitor Registry</h3>
+                
+                <!-- Card Component Array: Active Module Element -->
+                <div class="bg-white border border-slate-200/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start gap-3 border-b border-slate-100 pb-3">
+                        <div class="min-w-0 w-full">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="text-[9px] font-black text-white bg-amber-500 px-1.5 py-0.5 rounded-md uppercase tracking-wider animate-pulse whitespace-nowrap">Live Test</span>
+                                <h4 class="text-xs sm:text-sm font-bold text-[#1e1b4b] truncate">CSC401 — First Semester Mid-Term</h4>
+                            </div>
+                            <p class="text-[11px] sm:text-xs text-slate-400 mt-1 truncate">Compiler Construction • Started 20 mins ago</p>
+                        </div>
+                        <span class="text-[11px] font-bold text-[#6c5dd3] bg-[#f0ebfa] px-3 py-1 rounded-xl whitespace-nowrap self-start sm:self-auto">142 Students In Terminal</span>
+                    </div>
+                    <div class="flex flex-col xs:flex-row xs:justify-between xs:items-center gap-1 text-[11px] sm:text-xs">
+                        <span class="text-slate-400 font-medium">Progress Threshold Parameters:</span>
+                        <span class="font-bold text-[#1e1b4b]">84% Submission Rate</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div class="h-full bg-[#6c5dd3] rounded-full transition-all duration-500" style="width: 84%"></div>
+                    </div>
+                </div>
+
+                <!-- Card Component Array: Completed Module Element -->
+                <div class="bg-white border border-slate-200/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-sm space-y-3.5">
+                    <div class="flex flex-col sm:flex-row justify-between items-start gap-3 border-b border-slate-100 pb-3">
+                        <div class="min-w-0 w-full">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="text-[9px] font-black text-white bg-emerald-600 px-1.5 py-0.5 rounded-md uppercase tracking-wider whitespace-nowrap">Completed</span>
+                                <h4 class="text-xs sm:text-sm font-bold text-[#1e1b4b] truncate">CSC305 — Network Configurations Validation</h4>
+                            </div>
+                            <p class="text-[11px] sm:text-xs text-slate-400 mt-1 truncate">Data Communication & Networks • Concluded yesterday</p>
+                        </div>
+                        <span class="text-[11px] font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-xl whitespace-nowrap self-start sm:self-auto">198 Submissions Logged</span>
+                    </div>
+                    <div class="flex flex-col xs:flex-row xs:justify-between xs:items-center gap-1 text-[11px] sm:text-xs">
+                        <span class="text-slate-400 font-medium">Grading Stack State:</span>
+                        <span class="font-bold text-emerald-600">All Credentials Marked & Synchronized</span>
+                    </div>
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <!-- SIDEBAR ENGINE RUNTIME TOGGLE CONFIG -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('dashboard-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            
+            if(sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+    </script>
+</body>
+</html>

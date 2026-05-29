@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Sphere — Enterprise Assessment Builder</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.15; transform: scale(1); }
+            50% { opacity: 0.25; transform: scale(1.02); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+        .option-wrapper {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .option-wrapper:has(input[type="radio"]:checked) {
+            border-color: rgba(108, 93, 211, 0.5) !important;
+            background-color: rgba(108, 93, 211, 0.05) !important;
+            box-shadow: 0 0 12px rgba(108, 93, 211, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-[#f0ebfa] text-slate-700 font-sans min-h-screen relative overflow-x-hidden selection:bg-[#6c5dd3]/30">
+
+    <div class="absolute top-0 right-0 w-[250px] sm:w-[500px] h-[250px] sm:h-[500px] bg-[#6c5dd3] rounded-full filter blur-[80px] sm:blur-[150px] animate-pulse-glow pointer-events-none z-0"></div>
+    <div class="absolute bottom-0 left-0 w-[250px] sm:w-[500px] h-[250px] sm:h-[500px] bg-purple-300 rounded-full filter blur-[80px] sm:blur-[150px] animate-pulse-glow pointer-events-none z-0" style="animation-delay: 1.5s;"></div>
+
+    <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/40 opacity-0 pointer-events-none transition-opacity duration-300 z-40 lg:hidden" onclick="toggleSidebar()"></div>
+    
+    <aside id="dashboard-sidebar" class="fixed top-0 bottom-0 left-0 w-[280px] sm:w-[320px] lg:w-[320px] bg-white/95 backdrop-blur-md border-r border-slate-200/80 p-5 sm:p-6 shadow-2xl lg:shadow-md transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-50 flex flex-col justify-between">
+        <div class="space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-100/80 pb-4">
+                <div class="flex items-center gap-2.5">
+                    <div class="h-8 w-8 relative flex items-center justify-center shrink-0">
+                        <div class="absolute inset-0 rounded-full border border-dashed border-[#6c5dd3]/60"></div>
+                        <div class="h-3 w-3 bg-[#6c5dd3] rounded-full"></div>
+                    </div>
+                    <h1 class="text-lg font-black tracking-tight text-[#1e1b4b]">Test<span class="text-[#6c5dd3]">Sphere</span></h1>
+                </div>
+                <button onclick="toggleSidebar()" class="lg:hidden h-8 w-8 rounded-xl bg-[#f0ebfa] text-[#6c5dd3] font-black text-xs flex items-center justify-center cursor-pointer hover:bg-[#6c5dd3]/20 transition-all">✕</button>
+            </div>
+
+            <div class="bg-[#f0ebfa]/40 border border-[#6c5dd3]/10 rounded-2xl p-4 relative overflow-hidden">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="h-10 w-10 bg-gradient-to-tr from-[#5b4cb8] to-[#6c5dd3] rounded-xl flex items-center justify-center text-white text-sm font-black shadow-sm shrink-0">KJ</div>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-0.5">
+                            <h2 class="text-xs font-black text-[#1e1b4b] truncate">Prof. Kr8tive Johnson</h2>
+                            <span class="text-emerald-500 text-xs shrink-0">🛡️</span>
+                        </div>
+                        <p class="text-[10px] font-semibold text-[#6c5dd3] truncate">Senior Faculty Instructor</p>
+                    </div>
+                </div>
+                <div class="space-y-2 pt-2.5 border-t border-dashed border-slate-200 text-[11px]">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-slate-400 uppercase tracking-wider text-[9px]">Staff ID</span>
+                        <span class="font-mono font-bold text-[#1e1b4b]">STF-8842</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-slate-400 uppercase tracking-wider text-[9px]">Department</span>
+                        <span class="font-bold text-[#1e1b4b] truncate max-w-[130px]">Computer Science</span>
+                    </div>
+                    <div class="flex flex-col gap-0.5 mt-1">
+                        <span class="font-bold text-slate-400 uppercase tracking-wider text-[9px]">Institutional Mail</span>
+                        <span class="font-medium text-slate-600 break-all">larrye1220@gmail.com</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="space-y-2">
+                <span class="block text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1 px-1">Access Vectors</span>
+                <a href="dashboard.html" class="flex items-center justify-between p-3 bg-[#f0ebfa]/30 hover:bg-[#6c5dd3]/10 border border-slate-100 rounded-xl transition-all group w-full">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="text-base shrink-0">🏠</span>
+                        <div class="min-w-0">
+                            <h4 class="text-xs font-bold text-[#1e1b4b] group-hover:text-[#6c5dd3] transition-colors truncate">Control Terminal</h4>
+                            <p class="text-[10px] text-slate-400 truncate">Return to system overview</p>
+                        </div>
+                    </div>
+                    <span class="text-slate-300 group-hover:text-[#6c5dd3] transition-colors text-xs font-bold pl-1 shrink-0">→</span>
+                </a>
+                <a href="analytics.html" class="flex items-center justify-between p-3 bg-[#f0ebfa]/30 hover:bg-[#6c5dd3]/10 border border-slate-100 rounded-xl transition-all group w-full">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="text-base shrink-0">📊</span>
+                        <div class="min-w-0">
+                            <h4 class="text-xs font-bold text-[#1e1b4b] group-hover:text-[#6c5dd3] transition-colors truncate">Analytics Vault</h4>
+                            <p class="text-[10px] text-slate-400 truncate">Track student metrics</p>
+                        </div>
+                    </div>
+                    <span class="text-slate-300 group-hover:text-[#6c5dd3] transition-colors text-xs font-bold pl-1 shrink-0">→</span>
+                </a>
+            </nav>
+        </div>
+        <div class="border-t border-slate-100 pt-4">
+            <button onclick="window.location.href='../auth/login.html'" class="w-full text-center px-4 py-2.5 border border-red-100 hover:bg-red-50 text-red-600 bg-white rounded-xl text-xs font-bold shadow-sm transition-all cursor-pointer">
+                Disconnect Session
+            </button>
+        </div>
+    </aside>
+
+    <div class="lg:pl-[320px] transition-all duration-300">
+        <div class="max-w-5xl mx-auto px-4 py-4 sm:py-8 lg:py-10 space-y-6">
+            
+            <header class="flex items-center justify-between bg-white/90 backdrop-blur-md border border-slate-200/80 px-4 py-3 rounded-2xl shadow-sm lg:hidden">
+                <div class="flex items-center gap-2">
+                    <div class="h-8 w-8 bg-gradient-to-tr from-[#5b4cb8] to-[#6c5dd3] rounded-xl flex items-center justify-center text-white text-xs font-black shadow-sm">KJ</div>
+                    <div class="text-left">
+                        <h1 class="text-xs font-black text-[#1e1b4b] tracking-tight">Assessment Builder</h1>
+                        <p class="text-[9px] font-bold text-[#6c5dd3] uppercase tracking-wider">Test Sphere Matrix</p>
+                    </div>
+                </div>
+                <button onclick="toggleSidebar()" class="px-3 py-1.5 bg-[#6c5dd3] text-white text-xs font-bold rounded-xl shadow-md hover:bg-[#5b4cb8] transition-colors cursor-pointer flex items-center gap-1.5">
+                    <span>Menu</span> <span class="text-[10px]">☰</span>
+                </button>
+            </header>
+
+            <header class="hidden lg:flex justify-between items-center border-b border-slate-200/60 pb-5 mb-2">
+                <div>
+                    <h2 class="text-2xl font-black text-[#1e1b4b] tracking-tight">Test Sphere Assessment Engine</h2>
+                    <p class="text-xs font-medium text-slate-400 mt-0.5">Adjust security, sync, and question settings easily.</p>
+                </div>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                
+                <section class="col-span-1 lg:col-span-5 lg:sticky lg:top-6">
+                    <form id="test-config-form" class="space-y-4">
+                        
+                        <div class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm space-y-4">
+                            <h3 class="text-xs font-black uppercase tracking-wider text-[#1e1b4b] flex items-center gap-2">⚙️ Basic Configurations</h3>
+                            
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Course Code</label>
+                                <input type="text" id="course-code" required class="w-full bg-[#f0ebfa]/30 border border-slate-200 focus:border-[#6c5dd3] rounded-xl px-3.5 py-2.5 text-xs text-slate-800 font-mono outline-none transition-all" placeholder="e.g. CSC 301">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Assessment Title</label>
+                                <input type="text" id="test-title" required class="w-full bg-[#f0ebfa]/30 border border-slate-200 focus:border-[#6c5dd3] rounded-xl px-3.5 py-2.5 text-xs text-slate-800 outline-none transition-all" placeholder="e.g. Final Examination">
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Duration</label>
+                                    <div class="relative flex items-center">
+                                        <input type="number" id="test-duration" required min="1" class="w-full bg-[#f0ebfa]/30 border border-slate-200 focus:border-[#6c5dd3] rounded-xl pl-3.5 pr-10 py-2.5 text-xs text-slate-800 font-mono outline-none transition-all" placeholder="60">
+                                        <span class="absolute right-3.5 text-[9px] font-black text-slate-400 tracking-wider">MIN</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Total Marks</label>
+                                    <div class="relative flex items-center">
+                                        <input type="number" id="total-marks" required min="1" class="w-full bg-[#f0ebfa]/30 border border-slate-200 focus:border-[#6c5dd3] rounded-xl pl-3.5 pr-10 py-2.5 text-xs text-slate-800 font-mono outline-none transition-all" placeholder="100">
+                                        <span class="absolute right-3.5 text-[9px] font-black text-slate-400 tracking-wider">PTS</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm space-y-4">
+                            <h3 class="text-xs font-black uppercase tracking-wider text-[#1e1b4b] flex items-center gap-2">📅 System Access Windows</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
+                                <div>
+                                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Execution Release Window Start</label>
+                                    <input type="datetime-local" id="start-window" required class="w-full bg-[#f0ebfa]/30 border border-slate-200 focus:border-[#6c5dd3] rounded-xl px-3 py-2 text-xs text-slate-700 outline-none transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Execution Closure Window End</label>
+                                    <input type="datetime-local" id="end-window" required class="w-full bg-[#f0ebfa]/30 border border-slate-200 focus:border-[#6c5dd3] rounded-xl px-3 py-2 text-xs text-slate-700 outline-none transition-all">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm space-y-4">
+                            <h3 class="text-xs font-black uppercase tracking-wider text-[#1e1b4b] flex items-center gap-2">🛡️ Security & Evaluation Policy</h3>
+                            
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Result Visibility Model</label>
+                                <select id="result-visibility" class="w-full bg-[#f0ebfa]/30 border border-slate-200 focus:border-[#6c5dd3] rounded-xl px-3 py-2.5 text-xs text-slate-700 outline-none transition-all">
+                                    <option value="immediate">Release Immediately on Submission</option>
+                                    <option value="manual">Retain Until Manual Lecturer Sanction</option>
+                                    <option value="window_closed">Publish After Global Close Window passes</option>
+                                </select>
+                            </div>
+
+                            <div class="space-y-3 pt-2">
+                                <label class="flex items-start gap-3 cursor-pointer group">
+                                    <input type="checkbox" id="proctor-tablock" class="accent-[#6c5dd3] h-4 w-4 rounded mt-0.5 cursor-pointer">
+                                    <div class="text-left">
+                                        <span class="block text-xs font-bold text-slate-800 group-hover:text-[#6c5dd3] transition-colors">Enforce Anti-Cheat Tab Monitor</span>
+                                        <p class="text-[10px] text-slate-400">Flag or terminate student nodes if browser focus shifts away.</p>
+                                    </div>
+                                </label>
+                                <label class="flex items-start gap-3 cursor-pointer group">
+                                    <input type="checkbox" id="proctor-shuffle" class="accent-[#6c5dd3] h-4 w-4 rounded mt-0.5 cursor-pointer">
+                                    <div class="text-left">
+                                        <span class="block text-xs font-bold text-slate-800 group-hover:text-[#6c5dd3] transition-colors">Randomize Question Allocation</span>
+                                        <p class="text-[10px] text-slate-400">Shuffles order sequences globally per terminal instance block.</p>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="pt-3 border-t border-slate-100">
+                                <button type="submit" class="w-full bg-[#6c5dd3] hover:bg-[#5b4cb8] text-white font-bold text-xs py-3.5 rounded-xl uppercase tracking-wider shadow-md shadow-[#6c5dd3]/20 transition-all cursor-pointer">
+                                    🚀 Commit & Deploy Matrix
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="col-span-1 lg:col-span-7 space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 bg-white border border-slate-200/80 p-4 rounded-xl shadow-sm">
+                        <div>
+                            <h3 class="text-xs font-black uppercase tracking-wider text-[#1e1b4b]">Test Preparation Center</h3>
+                            <p class="text-[11px] text-slate-400 mt-0.5">Add objective question sections with set limits.</p>
+                        </div>
+                        <button type="button" id="add-question-btn" class="bg-[#6c5dd3]/10 text-[#6c5dd3] border border-[#6c5dd3]/20 hover:bg-[#6c5dd3]/20 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer text-center shrink-0">
+                            + Add Question
+                        </button>
+                    </div>
+
+                    <div id="questions-wrapper" class="space-y-4"></div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('dashboard-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if(sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const wrapper = document.getElementById("questions-wrapper");
+            const addBtn = document.getElementById("add-question-btn");
+            let questionCounter = 0;
+
+            function appendQuestionModule() {
+                questionCounter++;
+                const questionBlock = document.createElement("div");
+                questionBlock.className = "bg-white border border-slate-200/80 rounded-xl p-4 sm:p-5 shadow-sm space-y-4 relative transition-all duration-300 question-item hover:border-slate-300";
+                questionBlock.dataset.id = questionCounter;
+
+                questionBlock.innerHTML = `
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-[#f0ebfa] border border-[#6c5dd3]/20 text-[#6c5dd3] px-2.5 py-0.5 rounded-lg text-xs font-mono font-bold">
+                                Q-${String(questionCounter).padStart(2, '0')}
+                            </span>
+                            <span class="text-[9px] uppercase tracking-wider text-slate-400 font-bold hidden xs:inline">Dynamic Assessment Module Node</span>
+                        </div>
+                        <button type="button" class="text-slate-400 hover:text-red-500 text-[10px] font-bold uppercase tracking-wider transition-all remove-btn cursor-pointer">
+                            [ Delete Question ]
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">Assigned Points for Question</label>
+                            <input type="number" required min="1" value="1" class="w-full bg-[#f0ebfa]/10 border border-slate-200 focus:border-[#6c5dd3] rounded-lg px-3 py-1.5 text-xs font-mono text-slate-700 outline-none transition-all q-weight" placeholder="1">
+                        </div>
+                        <div>
+                            <label class="block text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">Topic Keyword Tag Mapping</label>
+                            <input type="text" class="w-full bg-[#f0ebfa]/10 border border-slate-200 focus:border-[#6c5dd3] rounded-lg px-3 py-1.5 text-xs text-slate-700 outline-none transition-all q-tag" placeholder="e.g. #compiler-parsing">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Objective Text Statement</label>
+                        <textarea required class="w-full bg-[#f0ebfa]/20 border border-slate-200 focus:border-[#6c5dd3] rounded-xl px-3.5 py-2.5 text-xs text-slate-700 placeholder-slate-400 outline-none transition-all min-h-[65px] resize-y" placeholder="Draft core query parameter content here..."></textarea>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-[9px] font-bold uppercase tracking-wider text-slate-400">Attach Reference Image / Diagram (From Device)</label>
+                        <input type="file" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#6c5dd3]/10 file:text-[#6c5dd3] hover:file:bg-[#6c5dd3]/20 cursor-pointer q-file-input">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="flex items-center gap-3 bg-[#f0ebfa]/10 border border-slate-200 rounded-xl px-3 py-2 option-wrapper">
+                            <span class="text-xs font-mono font-bold text-slate-400">A</span>
+                            <input type="text" required class="w-full bg-transparent border-none text-xs text-slate-700 outline-none placeholder-slate-400 py-1" placeholder="Option A Configuration">
+                            <input type="radio" name="correct-ans-${questionCounter}" value="A" required class="accent-[#6c5dd3] h-4 w-4 cursor-pointer">
+                        </div>
+                        
+                        <div class="flex items-center gap-3 bg-[#f0ebfa]/10 border border-slate-200 rounded-xl px-3 py-2 option-wrapper">
+                            <span class="text-xs font-mono font-bold text-slate-400">B</span>
+                            <input type="text" required class="w-full bg-transparent border-none text-xs text-slate-700 outline-none placeholder-slate-400 py-1" placeholder="Option B Configuration">
+                            <input type="radio" name="correct-ans-${questionCounter}" value="B" class="accent-[#6c5dd3] h-4 w-4 cursor-pointer">
+                        </div>
+
+                        <div class="flex items-center gap-3 bg-[#f0ebfa]/10 border border-slate-200 rounded-xl px-3 py-2 option-wrapper">
+                            <span class="text-xs font-mono font-bold text-slate-400">C</span>
+                            <input type="text" required class="w-full bg-transparent border-none text-xs text-slate-700 outline-none placeholder-slate-400 py-1" placeholder="Option C Configuration">
+                            <input type="radio" name="correct-ans-${questionCounter}" value="C" class="accent-[#6c5dd3] h-4 w-4 cursor-pointer">
+                        </div>
+
+                        <div class="flex items-center gap-3 bg-[#f0ebfa]/10 border border-slate-200 rounded-xl px-3 py-2 option-wrapper">
+                            <span class="text-xs font-mono font-bold text-slate-400">D</span>
+                            <input type="text" required class="w-full bg-transparent border-none text-xs text-slate-700 outline-none placeholder-slate-400 py-1" placeholder="Option D Configuration">
+                            <input type="radio" name="correct-ans-${questionCounter}" value="D" class="accent-[#6c5dd3] h-4 w-4 cursor-pointer">
+                        </div>
+                    </div>
+                `;
+
+                questionBlock.querySelector(".remove-btn").addEventListener("click", () => {
+                    questionBlock.remove();
+                    reindexQuestionTags();
+                });
+
+                wrapper.appendChild(questionBlock);
+            }
+
+            function reindexQuestionTags() {
+                const items = wrapper.querySelectorAll(".question-item");
+                questionCounter = 0;
+                items.forEach((item) => {
+                    questionCounter++;
+                    item.dataset.id = questionCounter;
+                    item.querySelector("span.font-mono").textContent = `Q-${String(questionCounter).padStart(2, '0')}`;
+                    const radios = item.querySelectorAll("input[type='radio']");
+                    radios.forEach(radio => radio.name = `correct-ans-${questionCounter}`);
+                });
+            }
+
+            appendQuestionModule();
+            addBtn.addEventListener("click", appendQuestionModule);
+
+            // HELPER: CONVERT ATTACHED FILE SYSTEM TO BASE64 STRINGS ASYNCHRONOUSLY
+            function getBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = error => reject(error);
+                });
+            }
+
+            // PAYLOAD DISPATCH BUNDLER ENHANCEMENTS
+            document.getElementById("test-config-form").addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const questionNodes = wrapper.querySelectorAll(".question-item");
+                if(questionNodes.length === 0) return alert("Your deployed registry cannot be blank!");
+
+                let builtQuestions = [];
+                let validationPass = true;
+
+                // Process nodes parsing synchronously for clean await sequence loops
+                for (let i = 0; i < questionNodes.length; i++) {
+                    const node = questionNodes[i];
+                    const text = node.querySelector("textarea").value;
+                    const optionsInputs = node.querySelectorAll("input[type='text']");
+                    const correctRadio = node.querySelector("input[type='radio']:checked");
+                    const weight = node.querySelector(".q-weight").value;
+                    const tag = node.querySelector(".q-tag").value;
+                    const fileInput = node.querySelector(".q-file-input");
+
+                    if(!correctRadio) {
+                        validationPass = false;
+                        node.classList.add("border-red-400", "bg-red-50/20");
+                    } else {
+                        node.classList.remove("border-red-400", "bg-red-50/20");
+                    }
+
+                    let fileBase64 = null;
+                    if (fileInput.files && fileInput.files[0]) {
+                        try {
+                            fileBase64 = await getBase64(fileInput.files[0]);
+                        } catch (err) {
+                            console.error("Base64 reading runtime warning:", err);
+                        }
+                    }
+
+                    builtQuestions.push({
+                        questionText: text,
+                        weight: parseFloat(weight) || 1,
+                        topicTag: tag.trim(),
+                        mediaDataUri: fileBase64, // Dispatches data payload base64 string or null 
+                        optionA: optionsInputs[0].value,
+                        optionB: optionsInputs[1].value,
+                        optionC: optionsInputs[2].value,
+                        optionD: optionsInputs[3].value,
+                        correctAnswer: correctRadio ? correctRadio.value : null
+                    });
+                }
+
+                if(!validationPass) return alert("Validation Warning: Highlight correctness tags for all deployed query modules before scheduling.");
+
+                const payload = {
+                    courseCode: document.getElementById("course-code").value,
+                    title: document.getElementById("test-title").value,
+                    duration: document.getElementById("test-duration").value,
+                    totalMarks: document.getElementById("total-marks").value,
+                    windowStart: document.getElementById("start-window").value,
+                    windowEnd: document.getElementById("end-window").value,
+                    resultVisibility: document.getElementById("result-visibility").value,
+                    antiCheatTabLock: document.getElementById("proctor-tablock").checked,
+                    randomizeSequence: document.getElementById("proctor-shuffle").checked,
+                    questions: builtQuestions
+                };
+
+                try {
+                    const response = await fetch("/api/tests/create", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await response.json();
+                    
+                    if(data.success) {
+                        alert("🎉 Enterprise Assessment Matrix Deployed and Stored Successfully!");
+                        window.location.reload();
+                    } else {
+                        alert("Deployment failed: " + data.message);
+                    }
+                } catch(err) {
+                    console.error(err);
+                    alert("Network framework block encountered while submitting compilation payload.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

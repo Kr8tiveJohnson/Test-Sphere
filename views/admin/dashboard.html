@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Sphere - Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f8fafc;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 font-sans antialiased min-h-screen flex relative overflow-x-hidden">
+
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200/80 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col justify-between shadow-sm">
+        <div>
+            <div class="h-20 flex items-center px-6 border-b border-slate-100 gap-3">
+                <div class="w-9 h-9 bg-slate-900 rounded-xl flex items-center justify-center font-bold text-sm text-white shadow-sm">
+                    TS
+                </div>
+                <div>
+                    <span class="font-black tracking-tight block text-slate-900 text-sm">TEST SPHERE</span>
+                    <span class="text-[10px] text-indigo-600 font-bold uppercase tracking-widest block mt-0.5">Control Center</span>
+                </div>
+            </div>
+
+            <nav id="sidebar-nav" class="p-4 space-y-1">
+                <a href="#overview" data-target="overview-section" class="nav-link flex items-center space-x-3 px-4 py-3 bg-slate-100 text-slate-900 rounded-xl font-semibold text-sm transition-all border border-slate-200/40">
+                    <span class="text-base">📊</span> <span>Overview Dashboard</span>
+                </a>
+                <a href="#courses" data-target="courses-section" class="nav-link flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-xl text-sm font-medium transition-all group border border-transparent hover:border-slate-100">
+                    <span class="group-hover:scale-110 transition-transform">📚</span> <span>Manage Courses</span>
+                </a>
+                <a href="#questions" data-target="questions-section" class="nav-link flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-xl text-sm font-medium transition-all group border border-transparent hover:border-slate-100">
+                    <span class="group-hover:scale-110 transition-transform">❓</span> <span>Question Bank</span>
+                </a>
+                <a href="#users" data-target="users-section" class="nav-link flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-xl text-sm font-medium transition-all group border border-transparent hover:border-slate-100">
+                    <span class="group-hover:scale-110 transition-transform">👥</span> <span>User Accounts</span>
+                </a>
+                <a href="#results" data-target="results-section" class="nav-link flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-xl text-sm font-medium transition-all group border border-transparent hover:border-slate-100">
+                    <span class="group-hover:scale-110 transition-transform">📝</span> <span>Student Results</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="p-4 border-t border-slate-100 bg-slate-50/50">
+            <div class="flex items-center space-x-3 px-2 py-2.5 bg-white rounded-xl border border-slate-200/60 shadow-xs">
+                <div class="w-2 h-2 rounded-full bg-emerald-500 animate-[pulse_1.5s_infinite] shadow-[0_0_8px_#10b981]"></div>
+                <span class="text-[11px] text-slate-500 font-bold tracking-wider uppercase">System Engine Active</span>
+            </div>
+        </div>
+    </aside>
+
+    <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-30 hidden md:hidden transition-opacity duration-300 opacity-0"></div>
+
+    <div class="flex-1 md:pl-64 flex flex-col min-h-screen w-full min-w-0 z-10 relative">
+        
+        <header class="h-20 border-b border-slate-200/60 bg-white/80 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between sticky top-0 z-20 shadow-xs">
+            <div class="flex items-center gap-4">
+                <button id="menu-btn" class="p-2.5 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl md:hidden text-slate-700 transition-all cursor-pointer shadow-xs">
+                    ☰
+                </button>
+                <div class="hidden sm:block">
+                    <h2 id="current-view-title" class="text-xs font-bold tracking-widest text-slate-400 uppercase">Overview Dashboard</h2>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2.5">
+                <button id="btn-add-course" class="bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold px-4 py-2.5 rounded-xl border border-slate-200 transition-all cursor-pointer shadow-xs whitespace-nowrap">
+                    + Course
+                </button>
+                <button id="btn-enroll-user" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-xs cursor-pointer whitespace-nowrap">
+                    + Enroll User
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 p-4 sm:p-8 max-w-7xl w-full mx-auto min-w-0">
+            
+            <div id="overview-section" class="view-content space-y-8 block">
+                <div class="space-y-1">
+                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900">System Metrics Summary</h1>
+                    <p class="text-sm text-slate-500">Real-time analytical metrics overview across departments.</p>
+                </div>
+
+                <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 stats-grid">
+                    <div class="stat-card bg-white border border-slate-200/80 p-6 rounded-2xl shadow-xs hover:shadow-md transition-all group duration-300">
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-400 group-hover:text-slate-900 transition-colors block">Total Courses</span>
+                        <h3 id="stat-total-courses" class="text-3xl font-black text-slate-900 tracking-tight mt-2">14</h3>
+                        <div class="mt-2 text-xs text-slate-500">Active current semester</div>
+                    </div>
+                    <div class="stat-card bg-white border border-slate-200/80 p-6 rounded-2xl shadow-xs hover:shadow-md transition-all group duration-300">
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-400 group-hover:text-slate-900 transition-colors block">Lecturer Accounts</span>
+                        <h3 class="text-3xl font-black text-slate-900 tracking-tight mt-2">32</h3>
+                        <div class="mt-2 text-xs text-slate-500">Managing test clusters</div>
+                    </div>
+                    <div class="stat-card bg-white border border-slate-200/80 p-6 rounded-2xl shadow-xs hover:shadow-md transition-all group duration-300">
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-400 group-hover:text-slate-900 transition-colors block">Registered Examinees</span>
+                        <h3 id="stat-total-users" class="text-3xl font-black text-slate-900 tracking-tight mt-2">1,240</h3>
+                        <div class="mt-2 text-xs text-emerald-600 font-semibold flex items-center gap-1.5">
+                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+                            84 testing live
+                        </div>
+                    </div>
+                    <div class="stat-card bg-white border border-slate-200/80 p-6 rounded-2xl shadow-xs hover:shadow-md transition-all group duration-300">
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-400 group-hover:text-slate-900 transition-colors block">Assessment Average</span>
+                        <h3 class="text-3xl font-black text-slate-900 tracking-tight mt-2">68.4%</h3>
+                        <div class="mt-2 text-xs text-slate-500">Aggregated performance</div>
+                    </div>
+                </section>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    <section class="lg:col-span-5 bg-white border border-slate-200/80 rounded-2xl shadow-xs overflow-hidden panel-container invisible">
+                        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/30">
+                            <div>
+                                <h2 class="text-sm font-extrabold text-slate-900 tracking-tight">Lecturer Registrations</h2>
+                                <p class="text-[11px] text-slate-500 mt-0.5">Faculty evaluators pending deployment validation.</p>
+                            </div>
+                            <span class="bg-slate-100 text-slate-700 border border-slate-200/60 text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider">New</span>
+                        </div>
+
+                        <div class="p-4 space-y-2.5 max-h-[360px] overflow-y-auto bg-white">
+                            <div class="flex items-center justify-between p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-xl transition-all group">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-xs text-slate-700 group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
+                                        TA
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-bold text-slate-900">Prof. Taiwo Amunigun</h4>
+                                        <p class="text-xs text-slate-500">Architecture Faculty</p>
+                                    </div>
+                                </div>
+                                <span class="text-[11px] text-slate-400 font-medium">2 mins ago</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-xl transition-all group">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-xs text-slate-700 group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
+                                        SF
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-bold text-slate-900">Dr. Shukurat Feyinshola</h4>
+                                        <p class="text-xs text-slate-500">Computer Science</p>
+                                    </div>
+                                </div>
+                                <span class="text-[11px] text-slate-400 font-medium">1 hr ago</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-xl transition-all group">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-xs text-slate-700 group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
+                                        MB
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-bold text-slate-900">M.O. Bakare</h4>
+                                        <p class="text-xs text-slate-500">Information Security</p>
+                                    </div>
+                                </div>
+                                <span class="text-[11px] text-slate-400 font-medium">4 hrs ago</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lg:col-span-7 bg-white border border-slate-200/80 rounded-2xl shadow-xs overflow-hidden panel-container invisible">
+                        <div class="p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50/30">
+                            <div>
+                                <h2 class="text-sm font-extrabold text-slate-900 tracking-tight">Recent CA Submissions</h2>
+                                <p class="text-[11px] text-slate-500 mt-0.5">Live view of completed departmental examinations.</p>
+                            </div>
+                            <button class="self-start sm:self-center px-3 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 transition-all cursor-pointer">
+                                Filter Module ▾
+                            </button>
+                        </div>
+                        
+                        <div class="overflow-x-auto w-full">
+                            <table class="w-full text-left border-collapse whitespace-nowrap">
+                                <thead>
+                                    <tr class="border-b border-slate-100 bg-slate-50/50 text-slate-400 text-[11px] font-extrabold uppercase tracking-widest">
+                                        <th class="py-4 px-6">Student Account</th>
+                                        <th class="py-4 px-6">Course Module</th>
+                                        <th class="py-4 px-6 text-right">Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-submissions-tbody" class="text-sm divide-y divide-slate-100">
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="py-4 px-6 font-bold text-slate-900">Emmanuel Johnson</td>
+                                        <td class="py-4 px-6 text-slate-500 text-xs">COM 311 (Advanced Web Architecture)</td>
+                                        <td class="py-4 px-6 text-right font-extrabold text-slate-900">28 / 30</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="py-4 px-6 font-bold text-slate-900">Blessing Amadi</td>
+                                        <td class="py-4 px-6 text-slate-500 text-xs">COM 315 (Database Infrastructure)</td>
+                                        <td class="py-4 px-6 text-right font-extrabold text-slate-600">19 / 30</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="py-4 px-6 font-bold text-slate-900">Tunde Bakare</td>
+                                        <td class="py-4 px-6 text-slate-500 text-xs">COM 311 (Advanced Web Architecture)</td>
+                                        <td class="py-4 px-6 text-right font-extrabold text-slate-900">25 / 30</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div id="courses-section" class="view-content space-y-6 hidden">
+                <div class="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-xs">
+                    <h2 class="text-xl font-black text-slate-900">Manage Courses</h2>
+                    <p class="text-sm text-slate-500 mt-1">Configure active modules, update syllabi tracking structural definitions, and balance lecture rosters.</p>
+                    <div id="courses-wrapper" class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-5 border border-slate-200/60 bg-slate-50/30 rounded-xl flex justify-between items-start">
+                            <div>
+                                <span class="text-xs font-bold text-indigo-600 tracking-wider block uppercase">COM 311</span>
+                                <h4 class="font-bold text-slate-900 mt-0.5">Advanced Web Architecture</h4>
+                            </div>
+                            <span class="text-xs bg-emerald-50 text-emerald-700 font-bold px-2 py-1 rounded-md border border-emerald-100">Core</span>
+                        </div>
+                        <div class="p-5 border border-slate-200/60 bg-slate-50/30 rounded-xl flex justify-between items-start">
+                            <div>
+                                <span class="text-xs font-bold text-indigo-600 tracking-wider block uppercase">COM 315</span>
+                                <h4 class="font-bold text-slate-900 mt-0.5">Database Infrastructure</h4>
+                            </div>
+                            <span class="text-xs bg-emerald-50 text-emerald-700 font-bold px-2 py-1 rounded-md border border-emerald-100">Core</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="questions-section" class="view-content space-y-6 hidden">
+                <div class="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-xs">
+                    <h2 class="text-xl font-black text-slate-900">Question Bank Matrix</h2>
+                    <p class="text-sm text-slate-500 mt-1">Review validation queries, update test criteria structures, and query proctor assessments.</p>
+                    <div class="mt-6 p-12 border border-dashed border-slate-200 rounded-xl text-center text-slate-400 text-sm font-medium">
+                        Secure item generation schema online.
+                    </div>
+                </div>
+            </div>
+
+            <div id="users-section" class="view-content space-y-6 hidden">
+                <div class="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-xs">
+                    <h2 class="text-xl font-black text-slate-900">User Enrollment Records</h2>
+                    <p class="text-sm text-slate-500 mt-1">Manage granular administrative access control matrices for student and instructor endpoints.</p>
+                    <div id="users-wrapper" class="mt-6 space-y-3">
+                        <div class="flex items-center justify-between p-4 bg-slate-50/40 border border-slate-200/60 rounded-xl">
+                            <div>
+                                <h4 class="font-bold text-slate-900">Emmanuel Johnson</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">Role: Student</p>
+                            </div>
+                            <span class="text-xs text-slate-400 font-mono">ID: STU-8820</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="results-section" class="view-content space-y-6 hidden">
+                <div class="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-xs">
+                    <h2 class="text-xl font-black text-slate-900">Academic Grading Logs</h2>
+                    <p class="text-sm text-slate-500 mt-1">Review complete raw analytics, historical continuous assessments summaries, and finalize performance tables.</p>
+                    <div class="mt-6 p-12 border border-dashed border-slate-200 rounded-xl text-center text-slate-400 text-sm font-medium">
+                        No computational data exceptions reported.
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div id="modal-course" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs hidden opacity-0">
+        <div id="modal-course-box" class="bg-white w-full max-w-md rounded-2xl border border-slate-200 shadow-xl overflow-hidden transform scale-95 transition-all">
+            <div class="p-6 border-b border-slate-100 bg-slate-50/50">
+                <h3 class="text-base font-black text-slate-900 tracking-tight">Create Course Module</h3>
+                <p class="text-xs text-slate-500 mt-0.5">Register new administrative structures into the system cluster.</p>
+            </div>
+            <form id="form-course" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Module Code</label>
+                    <input type="text" id="input-course-code" placeholder="e.g., COM 411" required class="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-hidden focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all bg-slate-50/30">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Module Title</label>
+                    <input type="text" id="input-course-title" placeholder="e.g., Human-Computer Interaction" required class="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-hidden focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all bg-slate-50/30">
+                </div>
+                <div class="flex items-center justify-end gap-2 pt-2">
+                    <button type="button" id="btn-close-course" class="px-4 py-2.5 text-xs font-bold text-slate-500 hover:text-slate-800 rounded-xl transition-colors cursor-pointer">Cancel</button>
+                    <button type="submit" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer">Deploy Module</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-enroll" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs hidden opacity-0">
+        <div id="modal-enroll-box" class="bg-white w-full max-w-md rounded-2xl border border-slate-200 shadow-xl overflow-hidden transform scale-95 transition-all">
+            <div class="p-6 border-b border-slate-100 bg-slate-50/50">
+                <h3 class="text-base font-black text-slate-900 tracking-tight">Enroll Account Profile</h3>
+                <p class="text-xs text-slate-500 mt-0.5">Provision fresh operational endpoint nodes safely.</p>
+            </div>
+            <form id="form-enroll" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Full Legal Name</label>
+                    <input type="text" id="input-user-name" placeholder="e.g., Motunrayo Alabi" required class="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-hidden focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all bg-slate-50/30">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Target Roster Role</label>
+                    <select id="input-user-role" class="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-hidden focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all bg-slate-50/30">
+                        <option value="Student">Student Examinee</option>
+                        <option value="Instructor">Faculty Evaluator</option>
+                    </select>
+                </div>
+                <div class="flex items-center justify-end gap-2 pt-2">
+                    <button type="button" id="btn-close-enroll" class="px-4 py-2.5 text-xs font-bold text-slate-500 hover:text-slate-800 rounded-xl transition-colors cursor-pointer">Cancel</button>
+                    <button type="submit" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer">Initialize Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Mobile Sidebar Selection Nodes
+            const menuBtn = document.getElementById("menu-btn");
+            const sidebar = document.getElementById("sidebar");
+            const overlay = document.getElementById("sidebar-overlay");
+            const currentViewTitle = document.getElementById("current-view-title");
+
+            // Modal Selection Target Nodes
+            const btnAddCourse = document.getElementById("btn-add-course");
+            const btnEnrollUser = document.getElementById("btn-enroll-user");
+            const modalCourse = document.getElementById("modal-course");
+            const modalCourseBox = document.getElementById("modal-course-box");
+            const modalEnroll = document.getElementById("modal-enroll");
+            const modalEnrollBox = document.getElementById("modal-enroll-box");
+            const btnCloseCourse = document.getElementById("btn-close-course");
+            const btnCloseEnroll = document.getElementById("btn-close-enroll");
+
+            // Form Fields and Layout Wrappers
+            const formCourse = document.getElementById("form-course");
+            const formEnroll = document.getElementById("form-enroll");
+            const statTotalCourses = document.getElementById("stat-total-courses");
+            const statTotalUsers = document.getElementById("stat-total-users");
+            const coursesWrapper = document.getElementById("courses-wrapper");
+            const usersWrapper = document.getElementById("users-section");
+            const recentSubmissionsTbody = document.getElementById("recent-submissions-tbody");
+
+            // Reactive Numerical Counter States
+            let courseCount = 14;
+            let userCount = 1240;
+
+            // GSAP Interactive Modal Animation Layout Handlers
+            function openModal(modalEl, boxEl) {
+                modalEl.classList.remove("hidden");
+                gsap.to(modalEl, { opacity: 1, duration: 0.25, ease: "power2.out" });
+                gsap.to(boxEl, { scale: 1, duration: 0.3, ease: "back.out(1.4)" });
+            }
+
+            function closeModal(modalEl, boxEl) {
+                gsap.to(modalEl, { opacity: 0, duration: 0.2, ease: "power2.in", onComplete: () => modalEl.classList.add("hidden") });
+                gsap.to(boxEl, { scale: 0.95, duration: 0.2, ease: "power2.in" });
+            }
+
+            // Bind Trigger Actions to Modal Buttons
+            btnAddCourse.addEventListener("click", () => openModal(modalCourse, modalCourseBox));
+            btnEnrollUser.addEventListener("click", () => openModal(modalEnroll, modalEnrollBox));
+            btnCloseCourse.addEventListener("click", () => closeModal(modalCourse, modalCourseBox));
+            btnCloseEnroll.addEventListener("click", () => closeModal(modalEnroll, modalEnrollBox));
+
+            // Background Overlay Click Interceptors
+            modalCourse.addEventListener("click", (e) => { if(e.target === modalCourse) closeModal(modalCourse, modalCourseBox); });
+            modalEnroll.addEventListener("click", (e) => { if(e.target === modalEnroll) closeModal(modalEnroll, modalEnrollBox); });
+
+            // Form Submit: Course Module Insertion Pipeline
+            formCourse.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const code = document.getElementById("input-course-code").value.trim();
+                const title = document.getElementById("input-course-title").value.trim();
+
+                if (code && title) {
+                    // Update analytical dashboard metrics globally
+                    courseCount++;
+                    statTotalCourses.textContent = courseCount;
+
+                    // Append card into Course Management tab
+                    const cleanContainer = coursesWrapper.querySelector("div[class*='border-dashed']");
+                    if (cleanContainer) cleanContainer.remove();
+
+                    const newCard = document.createElement("div");
+                    newCard.className = "p-5 border border-slate-200/60 bg-slate-50/30 rounded-xl flex justify-between items-start opacity-0 transform translate-y-3";
+                    newCard.innerHTML = `
+                        <div>
+                            <span class="text-xs font-bold text-indigo-600 tracking-wider block uppercase">${code}</span>
+                            <h4 class="font-bold text-slate-900 mt-0.5">${title}</h4>
+                        </div>
+                        <span class="text-xs bg-indigo-50 text-indigo-700 font-bold px-2 py-1 rounded-md border border-indigo-100">Elective</span>
+                    `;
+                    coursesWrapper.appendChild(newCard);
+                    gsap.to(newCard, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" });
+
+                    // Clean form & dismiss view safely
+                    formCourse.reset();
+                    closeModal(modalCourse, modalCourseBox);
+                }
+            });
+
+            // Form Submit: User Account Roster Management
+            formEnroll.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const name = document.getElementById("input-user-name").value.trim();
+                const role = document.getElementById("input-user-role").value;
+                const generatedId = Math.floor(1000 + Math.random() * 9000);
+
+                if (name) {
+                    // Increment and show total registry statistics
+                    userCount++;
+                    statTotalUsers.textContent = userCount.toLocaleString();
+
+                    // Process Insertion: Targets User View Container
+                    const targetContainer = document.getElementById("users-wrapper");
+                    if (targetContainer) {
+                        const newUserRow = document.createElement("div");
+                        newUserRow.className = "flex items-center justify-between p-4 bg-slate-50/40 border border-slate-200/60 rounded-xl opacity-0 transform translate-y-2";
+                        newUserRow.innerHTML = `
+                            <div>
+                                <h4 class="font-bold text-slate-900">${name}</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">Role: ${role}</p>
+                            </div>
+                            <span class="text-xs text-slate-400 font-mono">ID: ${role === "Student" ? "STU" : "LEC"}-${generatedId}</span>
+                        `;
+                        targetContainer.insertBefore(newUserRow, targetContainer.firstChild);
+                        gsap.to(newUserRow, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" });
+                    }
+
+                    // For students: Insert a mock continuous assessment entry inside the Overview grid
+                    if (role === "Student") {
+                        const newTableRow = document.createElement("tr");
+                        newTableRow.className = "hover:bg-slate-50 transition-colors border-b border-slate-100 bg-emerald-50/10 opacity-0";
+                        newTableRow.innerHTML = `
+                            <td class="py-4 px-6 font-bold text-slate-900">${name}</td>
+                            <td class="py-4 px-6 text-slate-500 text-xs">COM 311 (Advanced Web Architecture)</td>
+                            <td class="py-4 px-6 text-right font-extrabold text-indigo-600">Pending Exam</td>
+                        `;
+                        recentSubmissionsTbody.insertBefore(newTableRow, recentSubmissionsTbody.firstChild);
+                        gsap.to(newTableRow, { opacity: 1, duration: 0.4 });
+                    }
+
+                    // Reset context values safely
+                    formEnroll.reset();
+                    closeModal(modalEnroll, modalEnrollBox);
+                }
+            });
+
+            // Toggle Sidebar Panel Component Logic
+            function toggleSidebar(isOpen) {
+                if (isOpen) {
+                    overlay.classList.remove("hidden");
+                    setTimeout(() => {
+                        overlay.classList.add("opacity-100");
+                        sidebar.classList.remove("-translate-x-full");
+                    }, 10);
+                } else {
+                    sidebar.classList.add("-translate-x-full");
+                    overlay.classList.remove("opacity-100");
+                    setTimeout(() => {
+                        overlay.classList.add("hidden");
+                    }, 300);
+                }
+            }
+
+            menuBtn.addEventListener("click", () => toggleSidebar(true));
+            overlay.addEventListener("click", () => toggleSidebar(false));
+
+            // View Switcher Router Layout Engine
+            const navLinks = document.querySelectorAll(".nav-link");
+            const viewContents = document.querySelectorAll(".view-content");
+
+            navLinks.forEach(link => {
+                link.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    
+                    navLinks.forEach(item => {
+                        item.classList.remove("bg-slate-100", "text-slate-900", "font-semibold");
+                        item.classList.add("text-slate-600", "font-medium");
+                    });
+
+                    link.classList.add("bg-slate-100", "text-slate-900", "font-semibold");
+                    link.classList.remove("text-slate-600", "font-medium");
+
+                    const targetId = link.getAttribute("data-target");
+                    const targetViewName = link.querySelector("span:last-child").textContent;
+
+                    viewContents.forEach(view => {
+                        if (view.id === targetId) {
+                            view.classList.remove("hidden");
+                            view.classList.add("block");
+                            gsap.from(view, { opacity: 0, y: 15, duration: 0.4, ease: "power2.out" });
+                        } else {
+                            view.classList.remove("block");
+                            view.classList.add("hidden");
+                        }
+                    });
+
+                    if (currentViewTitle) {
+                        currentViewTitle.textContent = targetViewName;
+                    }
+
+                    if (window.innerWidth < 768) {
+                        toggleSidebar(false);
+                    }
+                });
+            });
+
+            // Initial Staging Base Layout Animations Setup
+            gsap.from(".stat-card", {
+                opacity: 0,
+                y: 20,
+                duration: 0.5,
+                stagger: 0.06,
+                ease: "power2.out"
+            });
+
+            gsap.set(".panel-container", { autoAlpha: 1 });
+            gsap.from(".panel-container", {
+                y: 25,
+                duration: 0.65,
+                stagger: 0.1,
+                delay: 0.2,
+                ease: "power3.out"
+            });
+        });
+    </script>
+</body>
+</html>

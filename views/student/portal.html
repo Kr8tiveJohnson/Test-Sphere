@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Sphere - Student Assessment Portal</title>
+    <!-- Tailwind CSS v4 Engine -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- GSAP for smooth page view transitions -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .mobile-sidebar-transition {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="bg-[#f0ebfa] font-sans antialiased min-h-screen flex items-center justify-center p-0 md:p-6">
+
+    <!-- MAIN DASHBOARD CONTAINER CANVAS -->
+    <div class="w-full max-w-[1440px] bg-white rounded-none md:rounded-[40px] shadow-2xl min-h-screen md:min-h-[850px] overflow-hidden grid grid-cols-1 lg:grid-cols-12 relative">
+        
+        <!-- ========================================================
+             1. MOBILE SIDEBAR OVERLAY & DRAWER CONTAINER
+             ======================================================== -->
+        <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-40 hidden lg:hidden transition-opacity duration-300 opacity-0"></div>
+        
+        <aside id="mobile-navigation" class="fixed inset-y-0 left-0 w-72 bg-[#6c5dd3] text-white/80 p-8 flex flex-col justify-between z-50 transform -translate-x-full mobile-sidebar-transition lg:relative lg:translate-x-0 lg:w-auto lg:col-span-2 lg:flex">
+            <div class="space-y-12">
+                <div class="flex items-center justify-between lg:justify-start gap-2 px-3">
+                    <span class="text-2xl font-extrabold tracking-tight text-white font-serif">Test<span class="font-sans font-semibold">Sphere</span></span>
+                    <button id="close-sidebar-btn" class="text-white/60 hover:text-white text-xl p-1 lg:hidden cursor-pointer">✕</button>
+                </div>
+
+                <!-- Exam Focus Navigation Links -->
+                <nav id="student-nav" class="space-y-1.5">
+                    <a href="#active-exams" data-view="exams-view" class="nav-item flex items-center gap-4 bg-white/10 text-white font-semibold text-sm px-4 py-3.5 rounded-2xl transition-all">
+                        <span>📝</span> Active Exams
+                    </a>
+                    <a href="#past-results" data-view="results-view" class="nav-item flex items-center gap-4 text-white/70 hover:bg-white/5 hover:text-white font-medium text-sm px-4 py-3.5 rounded-2xl transition-all">
+                        <span>📊</span> Past Results
+                    </a>
+                    <a href="#support" data-view="support-view" class="nav-item flex items-center gap-4 text-white/70 hover:bg-white/5 hover:text-white font-medium text-sm px-4 py-3.5 rounded-2xl transition-all">
+                        <span>💬</span> Support Chat
+                    </a>
+                    <a href="#schedule" data-view="schedule-view" class="nav-item flex items-center gap-4 text-white/70 hover:bg-white/5 hover:text-white font-medium text-sm px-4 py-3.5 rounded-2xl transition-all">
+                        <span>📅</span> Schedule
+                    </a>
+                </nav>
+            </div>
+
+            <div class="space-y-1.5 border-t border-white/10 pt-6">
+                <a href="#settings" data-view="settings-view" id="settings-trigger" class="nav-item flex items-center gap-4 text-white/70 hover:bg-white/5 hover:text-white font-medium text-sm px-4 py-3 rounded-xl transition-all">
+                    <span>⚙️</span> Settings
+                </a>
+            </div>
+        </aside>
+
+        <!-- ========================================================
+             2. CENTER MAIN HUB: ASSESSMENT MATRIX (7 Columns)
+             ======================================================== -->
+        <main class="col-span-1 lg:col-span-7 bg-white p-6 sm:p-10 space-y-8 relative">
+            
+            <!-- HEADER ARCHITECTURE -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-2 border-b border-slate-50 lg:border-none">
+                
+                <div class="flex items-center justify-between w-full sm:w-auto">
+                    <div class="flex items-center gap-3">
+                        <button id="open-sidebar-btn" class="lg:hidden text-slate-700 bg-slate-50 hover:bg-slate-100 p-2.5 rounded-xl transition-all cursor-pointer">
+                            ☰
+                        </button>
+                        <h1 id="view-title-header" class="text-2xl sm:text-3xl font-bold text-[#1e1b4b]">My Assessments</h1>
+                    </div>
+
+                    <!-- REAL PROFILE PICTURE: Mobile View (Clickable) -->
+                    <div class="profile-click-trigger flex lg:hidden items-center gap-3.5 cursor-pointer group">
+                        <div class="text-right hidden sm:block">
+                            <h4 class="profile-display-name text-xs font-bold text-[#1e1b4b]">Christine Eva</h4>
+                            <span class="profile-display-id text-[9px] font-mono text-slate-400">1094881999</span>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=120&h=120" 
+                             alt="Student Profile" 
+                             class="h-10 w-10 rounded-xl object-cover border-2 border-[#6c5dd3] shadow-sm">
+                    </div>
+                </div>
+
+                <!-- Global Interactive Tools: Search Bar & Notification Systems -->
+                <div class="flex items-center justify-end gap-3 w-full sm:w-auto relative">
+                    <!-- Real-Time Interactive Search Input Canvas -->
+                    <div class="relative flex items-center bg-slate-50 border border-slate-200/60 rounded-2xl px-3.5 py-2 w-full sm:w-64 focus-within:ring-2 focus-within:ring-[#6c5dd3]/20 focus-within:border-[#6c5dd3] transition-all">
+                        <span class="text-slate-400 text-sm mr-2 pointer-events-none">🔍</span>
+                        <input type="text" id="workspace-search" placeholder="Search assessments..." class="w-full bg-transparent text-xs font-medium text-slate-700 placeholder-slate-400 outline-none">
+                    </div>
+
+                    <!-- Interactive Notification Wrapper -->
+                    <div class="relative">
+                        <button id="notification-trigger" class="text-slate-400 hover:text-[#6c5dd3] p-2.5 rounded-xl bg-slate-50 border border-slate-200/40 hover:border-slate-200 transition-all cursor-pointer relative">
+                            🔔 <span id="notif-badge" class="absolute top-2 right-2 h-2 w-2 rounded-full bg-rose-500 animate-pulse"></span>
+                        </button>
+
+                        <!-- NOTIFICATION POP-UP MODAL PANEL -->
+                        <div id="notification-dropdown" class="hidden absolute right-0 mt-3 w-80 bg-white border border-slate-100 rounded-3xl shadow-2xl z-50 p-5 space-y-4 transform scale-95 opacity-0 origin-top-right transition-all duration-200">
+                            <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+                                <h3 class="font-bold text-sm text-[#1e1b4b]">Notifications</h3>
+                                <button id="mark-read-btn" class="text-[10px] font-bold text-[#6c5dd3] hover:underline cursor-pointer">Mark all read</button>
+                            </div>
+                            <div class="space-y-3 max-h-[280px] overflow-y-auto pr-1">
+                                <!-- ALERT 1: NEW TEST SUBMISSION -->
+                                <div class="p-3 bg-indigo-50/60 border border-indigo-100 rounded-2xl flex gap-3">
+                                    <span class="text-lg">✨</span>
+                                    <div class="space-y-0.5">
+                                        <p class="text-xs font-bold text-slate-800">New Assessment Uploaded</p>
+                                        <p class="text-[11px] text-slate-500">Prof. Mark Lee published <span class="font-semibold text-slate-700">CSC 301 OS Mid-Semester Test</span>.</p>
+                                        <span class="text-[9px] font-mono text-indigo-500 block pt-1">Just now</span>
+                                    </div>
+                                </div>
+                                <!-- ALERT 2: SCHEDULE REMINDER -->
+                                <div class="p-3 bg-amber-50/60 border border-amber-100 rounded-2xl flex gap-3">
+                                    <span class="text-lg">📅</span>
+                                    <div class="space-y-0.5">
+                                        <p class="text-xs font-bold text-slate-800">Upcoming Test Reminder</p>
+                                        <p class="text-[11px] text-slate-500">You have a scheduled test for <span class="font-semibold text-slate-700">CSC 305: AI</span> tomorrow at <span class="font-semibold text-slate-700">10:00 AM</span>.</p>
+                                        <span class="text-[9px] font-mono text-amber-600 block pt-1">Date: May 29, 2026</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRIMARY MUTABLE WORKSPACE WRAPPER -->
+            <div id="dynamic-workspace" class="space-y-8">
+                
+                <!-- VIEW 1: ACTIVE EXAMS GRID -->
+                <div id="exams-view" class="portal-view space-y-6 block">
+                    <!-- Exam Status Filters -->
+                    <div id="status-filters" class="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-slate-500 font-medium overflow-x-auto pb-2 sm:pb-0">
+                        <span class="text-slate-400 whitespace-nowrap">Status:</span>
+                        <button data-filter="available" class="filter-btn bg-[#6c5dd3] text-white px-4 py-1.5 rounded-full transition-all cursor-pointer">Available</button>
+                        <button data-filter="completed" class="filter-btn bg-slate-50 border border-slate-100 hover:border-slate-200 px-4 py-1.5 rounded-full transition-all cursor-pointer">Completed</button>
+                        <button data-filter="missed" class="filter-btn bg-slate-50 border border-slate-100 hover:border-slate-200 px-4 py-1.5 rounded-full transition-all cursor-pointer">Missed</button>
+                    </div>
+
+                    <!-- Active Test Registry Cards Stack -->
+                    <div id="exams-list" class="space-y-5">
+                        
+                        <!-- TEST UNIT 1: CSC 301 -->
+                        <div class="exam-card available bg-white border border-slate-100 rounded-[28px] sm:rounded-[32px] p-5 sm:p-6 shadow-[0_15px_40px_rgba(108,93,211,0.04)] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5 group hover:translate-y-[-2px] transition-all duration-300">
+                            <div class="flex items-start gap-4 sm:gap-5">
+                                <div class="p-4 rounded-xl sm:rounded-2xl bg-[#eef2ff] flex items-center justify-center text-2xl h-14 w-14 sm:h-16 sm:w-16 shrink-0">💻</div>
+                                <div class="space-y-1">
+                                    <div class="flex items-center gap-2">
+                                        <h3 class="search-target text-base sm:text-lg font-bold text-[#1e1b4b] group-hover:text-[#6c5dd3] transition-colors">CSC 301: Operating System</h3>
+                                        <span class="bg-emerald-100 text-emerald-700 text-[9px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">Live Now</span>
+                                    </div>
+                                    <p class="text-xs text-slate-400 leading-relaxed max-w-md">Mid-Semester Assessment covering Memory Management and CPU Scheduling architectures.</p>
+                                    <div class="flex items-center gap-4 text-[11px] font-semibold text-slate-400 pt-1">
+                                        <span>⏱️ 60 Mins</span>
+                                        <span>🎯 30 Questions</span>
+                                        <span class="search-target text-slate-600">By Prof. Mark Lee</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="/test-runner?testId=1" target="_blank" class="take-test-btn bg-[#6c5dd3] hover:bg-[#5b4cb8] text-white font-bold text-xs px-5 py-3 rounded-2xl shadow-md cursor-pointer transition-all self-end sm:self-auto shrink-0 uppercase tracking-wider text-center">
+                                Start Test
+                            </a>
+                        </div>
+
+                        <!-- TEST UNIT 2: CSC 305 -->
+                        <div class="exam-card available bg-[#fdf4ff] border border-transparent rounded-[28px] sm:rounded-[32px] p-5 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5 group hover:translate-y-[-2px] transition-all duration-300">
+                            <div class="flex items-start gap-4 sm:gap-5">
+                                <div class="p-4 rounded-xl sm:rounded-2xl bg-white flex items-center justify-center text-2xl h-14 w-14 sm:h-16 sm:w-16 shrink-0 shadow-sm">🤖</div>
+                                <div class="space-y-1">
+                                    <div class="flex items-center gap-2">
+                                        <h3 class="search-target text-base sm:text-lg font-bold text-[#1e1b4b]">CSC 305: Artificial Intelligence</h3>
+                                        <span class="bg-amber-100 text-amber-700 text-[9px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">Tomorrow</span>
+                                    </div>
+                                    <p class="text-xs text-slate-400 leading-relaxed max-w-md">Heuristic Search Mechanics, Neural Networks foundational frameworks and logic tokens.</p>
+                                    <div class="flex items-center gap-4 text-[11px] font-semibold text-slate-400 pt-1">
+                                        <span>⏱️ 45 Mins</span>
+                                        <span>🎯 25 Questions</span>
+                                        <span class="search-target text-slate-600">By Dr. Jung</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="bg-slate-200 text-slate-500 font-bold text-xs px-5 py-3 rounded-2xl cursor-not-allowed transition-all self-end sm:self-auto shrink-0 uppercase tracking-wider" disabled>
+                                Locked
+                            </button>
+                        </div>
+
+                        <!-- TEST UNIT 3: SEN 312 -->
+                        <div class="exam-card available bg-[#fff1f2] border border-transparent rounded-[28px] sm:rounded-[32px] p-5 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5 group hover:translate-y-[-2px] transition-all duration-300">
+                            <div class="flex items-start gap-4 sm:gap-5">
+                                <div class="p-4 rounded-xl sm:rounded-2xl bg-white flex items-center justify-center text-2xl h-14 w-14 sm:h-16 sm:w-16 shrink-0 shadow-sm">⚙️</div>
+                                <div class="space-y-1">
+                                    <div class="flex items-center gap-2">
+                                        <h3 class="search-target text-base sm:text-lg font-bold text-[#1e1b4b] group-hover:text-[#6c5dd3] transition-colors">SEN 312: Software Engineering</h3>
+                                        <span class="bg-indigo-100 text-indigo-700 text-[9px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">Open Access</span>
+                                    </div>
+                                    <p class="text-xs text-slate-400 leading-relaxed max-w-md">Comprehensive test analyzing clean architectural pipelines, patterns, and system design rules.</p>
+                                    <div class="flex items-center gap-4 text-[11px] font-semibold text-slate-400 pt-1">
+                                        <span>⏱️ 90 Mins</span>
+                                        <span>🎯 50 Questions</span>
+                                        <span class="search-target text-slate-600">By Prof. Kim</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="/test-runner?testId=3" target="_blank" class="take-test-btn bg-[#6c5dd3] hover:bg-[#5b4cb8] text-white font-bold text-xs px-5 py-3 rounded-2xl shadow-md cursor-pointer transition-all self-end sm:self-auto shrink-0 uppercase tracking-wider text-center">
+                                Start Test
+                            </a>
+                        </div>
+
+                        <!-- HISTORICAL/COMPLETED SKELETON NODES -->
+                        <div class="exam-card completed hidden bg-white border border-slate-100 rounded-[28px] p-6 flex justify-between items-center group">
+                            <div class="flex items-center gap-4">
+                                <div class="p-4 rounded-xl bg-slate-100 text-xl">📚</div>
+                                <div>
+                                    <h3 class="search-target font-bold text-[#1e1b4b]">MTH 202: Linear Algebra</h3>
+                                    <p class="text-xs text-slate-400">Completed on May 12, 2026</p>
+                                </div>
+                            </div>
+                            <span class="text-sm font-extrabold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-xl">26 / 30 Passed</span>
+                        </div>
+
+                        <div class="exam-card missed hidden bg-white border border-slate-100 rounded-[28px] p-6 flex justify-between items-center group">
+                            <div class="flex items-center gap-4">
+                                <div class="p-4 rounded-xl bg-slate-100 text-xl">📐</div>
+                                <div>
+                                    <h3 class="search-target font-bold text-[#1e1b4b]">GNS 101: Use of English</h3>
+                                    <p class="text-xs text-slate-400">Closed on May 15, 2026</p>
+                                </div>
+                            </div>
+                            <span class="text-sm font-bold text-rose-600 bg-rose-50 px-3 py-1.5 rounded-xl">Absent</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- VIEW 2: PAST RESULTS COMPONENT -->
+                <div id="results-view" class="portal-view space-y-4 hidden">
+                    <div class="bg-slate-50 border border-slate-100 p-6 rounded-3xl">
+                        <h3 class="font-bold text-[#1e1b4b] text-lg">Performance Grade Book</h3>
+                        <p class="text-xs text-slate-400 mt-1">Archived continuous assessment score cards and grading distribution summary templates.</p>
+                        <div class="mt-4 p-8 bg-white rounded-2xl border border-slate-100 text-center text-xs text-slate-400 font-medium">
+                            No verified performance updates available this week.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 3: SUPPORT ENVIRONMENT CHAT -->
+                <div id="support-view" class="portal-view space-y-4 hidden">
+                    <div class="bg-slate-50 border border-slate-100 p-6 rounded-3xl">
+                        <h3 class="font-bold text-[#1e1b4b] text-lg">Helpdesk Assistance System</h3>
+                        <p class="text-xs text-slate-400 mt-1">Submit support requests directly regarding CBT network connectivity issues or identity credential problems.</p>
+                        <div class="mt-4 p-8 bg-white rounded-2xl border border-slate-100 text-center text-xs text-slate-400 font-medium">
+                            Support operators are currently online. Secure connection token instantiated.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 4: MASTER TIMETABLE SCHEDULE -->
+                <div id="schedule-view" class="portal-view space-y-4 hidden">
+                    <div class="bg-slate-50 border border-slate-100 p-6 rounded-3xl">
+                        <h3 class="font-bold text-[#1e1b4b] text-lg">Comprehensive Calendar Engine</h3>
+                        <p class="text-xs text-slate-400 mt-1">Check full calendar listings, exam hall coordinates, and incoming structural test dates.</p>
+                        <div class="mt-4 p-8 bg-white rounded-2xl border border-slate-100 text-center text-xs text-slate-400 font-medium">
+                            No processing errors. Main timetabling matrix loaded successfully.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 5: FUNCTIONAL PORTAL SETTINGS DESIGN SYSTEM -->
+                <div id="settings-view" class="portal-view space-y-6 hidden">
+                    <div class="bg-slate-50 border border-slate-100 p-6 rounded-[32px] space-y-6">
+                        <div>
+                            <h3 class="font-bold text-[#1e1b4b] text-lg">Portal Configuration</h3>
+                            <p class="text-xs text-slate-400 mt-0.5">Customize your CBT assessment environment preferences and profile status indicators.</p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <!-- Toggle Card 1 -->
+                            <div class="bg-white p-4 rounded-2xl border border-slate-100 flex items-center justify-between">
+                                <div class="space-y-0.5">
+                                    <h4 class="text-xs font-bold text-slate-800">Push Notifications</h4>
+                                    <p class="text-[11px] text-slate-400">Receive real-time popups when lecturers drop new exams.</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" checked class="sr-only peer">
+                                    <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#6c5dd3]"></div>
+                                </label>
+                            </div>
+
+                            <!-- Toggle Card 2 -->
+                            <div class="bg-white p-4 rounded-2xl border border-slate-100 flex items-center justify-between">
+                                <div class="space-y-0.5">
+                                    <h4 class="text-xs font-bold text-slate-800">Email Exam Reminders</h4>
+                                    <p class="text-[11px] text-slate-400">Send 24-hour schedules directly to your registered primary mailbox.</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" checked class="sr-only peer">
+                                    <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#6c5dd3]"></div>
+                                </label>
+                            </div>
+
+                            <!-- Input Row Field -->
+                            <div class="bg-white p-5 rounded-2xl border border-slate-100 space-y-3">
+                                <h4 class="text-xs font-bold text-slate-800">CBT Screen Safety Lock Pin</h4>
+                                <div class="flex gap-3">
+                                    <input type="password" value="••••••••" class="bg-slate-50 text-xs text-slate-700 p-2.5 rounded-xl border border-slate-200/60 outline-none w-full max-w-xs focus:border-[#6c5dd3]" readonly>
+                                    <button class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-4 py-2.5 rounded-xl transition-all cursor-pointer">Modify</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- ========================================================
+             3. RIGHT SIDEBAR CONTENT: PROFILE, CALENDAR, QUOTES (3 Columns)
+             ======================================================== -->
+        <section class="col-span-1 lg:col-span-3 bg-slate-50/50 border-t lg:border-t-0 lg:border-l border-slate-100 p-6 sm:p-8 space-y-10">
+            
+            <!-- REAL PROFILE PICTURE: Desktop View (Clickable) -->
+            <div id="desktop-profile-node" class="profile-click-trigger hidden lg:flex items-center justify-end gap-3.5 cursor-pointer group">
+                <div class="text-right">
+                    <h4 class="profile-display-name text-sm font-bold text-[#1e1b4b] group-hover:text-[#6c5dd3] transition-colors">Christine Eva</h4>
+                    <span class="profile-display-id text-[10px] font-mono text-slate-400">1094881999</span>
+                </div>
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=120&h=120" 
+                     alt="Student Profile" 
+                     class="h-12 w-12 rounded-2xl object-cover border-2 border-[#6c5dd3] shadow-sm transition-transform group-hover:scale-105">
+            </div>
+
+            <!-- Calendar Schedule Dashboard Component Module -->
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-base font-bold text-[#1e1b4b]">Exam Schedule</h3>
+                    <div class="flex items-center gap-2 text-xs font-bold text-slate-400">
+                        <button id="cal-prev" class="hover:text-[#6c5dd3] cursor-pointer p-1 transition-colors">◀</button>
+                        <button id="cal-next" class="hover:text-[#6c5dd3] cursor-pointer p-1 transition-colors">▶</button>
+                    </div>
+                </div>
+                <div class="bg-white border border-slate-100 rounded-3xl p-4 shadow-sm space-y-3">
+                    <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-slate-400 tracking-wider uppercase">
+                        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                    </div>
+                    <div class="grid grid-cols-7 gap-y-2.5 gap-x-1 text-center text-xs font-semibold text-slate-700">
+                        <span class="text-slate-300 font-normal">26</span><span class="text-slate-300 font-normal">27</span><span class="text-slate-300 font-normal">28</span><span class="text-slate-300 font-normal">29</span><span class="text-slate-300 font-normal">30</span><span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">1</span><span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">2</span>
+                        <span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">3</span><span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">4</span><span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">5</span><span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">6</span><span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">7</span>
+                        <span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">8</span><span class="bg-[#6c5dd3] text-white font-bold rounded-full h-6 w-6 flex items-center justify-center mx-auto shadow-sm cursor-pointer">9</span>
+                        <span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">10</span><span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">11</span><span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">12</span>
+                        <span class="bg-indigo-100 text-[#6c5dd3] font-bold rounded-full h-6 w-6 flex items-center justify-center mx-auto cursor-pointer">13</span>
+                        <span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">14</span><span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">15</span><span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">16</span><span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">17</span><span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">18</span><span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">19</span><span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">20</span><span class="hover:text-[#6c5dd3] cursor-pointer transition-colors">21</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DYNAMIC INSPIRATIONAL EDUCATION QUOTES ELEMENT -->
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-base font-bold text-[#1e1b4b]">Daily Inspiration</h3>
+                </div>
+                
+                <div class="space-y-4">
+                    <div id="quote-card" class="bg-white p-5 rounded-[24px] border border-slate-100 shadow-[0_10px_30px_rgba(108,93,211,0.02)] relative overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-md">
+                        <div class="absolute -top-2 -right-1 text-slate-100 font-serif text-6xl pointer-events-none select-none transition-transform group-hover:scale-110 duration-300">“</div>
+                        <div class="space-y-2.5 relative z-10">
+                            <p class="text-xs font-medium text-slate-600 italic leading-relaxed">
+                                "Education is not the learning of facts, but the training of the mind to think."
+                            </p>
+                            <div class="flex items-center gap-2">
+                                <div class="h-1.5 w-1.5 rounded-full bg-[#6c5dd3]"></div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Albert Einstein</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- ========================================================
+         4. DYNAMIC REGISTRATION DETAIL EDITING MODAL FRAME
+         ======================================================== -->
+    <div id="profile-modal-backdrop" class="fixed inset-0 bg-slate-950/50 backdrop-blur-sm z-50 hidden opacity-0 flex items-center justify-center p-4 transition-opacity duration-300">
+        <div id="profile-modal" class="bg-white w-full max-w-lg rounded-[36px] shadow-2xl border border-slate-100 p-6 sm:p-8 space-y-6 transform scale-95 opacity-0 transition-all duration-300 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div class="flex items-center gap-3">
+                    <div class="h-9 w-9 rounded-xl bg-violet-100 flex items-center justify-center text-base">👤</div>
+                    <div>
+                        <h3 class="font-bold text-lg text-[#1e1b4b]">Registration Profile</h3>
+                        <p class="text-xs text-slate-400">Modify your current workspace details and bio strings</p>
+                    </div>
+                </div>
+                <button id="close-profile-modal" class="text-slate-400 hover:text-slate-600 text-lg p-2 cursor-pointer transition-colors">✕</button>
+            </div>
+
+            <!-- Form Matrix Grid Container -->
+            <form id="profile-edit-form" class="space-y-5">
+                <!-- Row 1: Primary Saved Core Registration Credentials -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-bold text-slate-600">Full Name</label>
+                        <input type="text" id="input-student-name" value="Christine Eva" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-medium text-slate-700 focus:ring-2 focus:ring-[#6c5dd3]/20 focus:border-[#6c5dd3] outline-none transition-all" required>
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-bold text-slate-600">Matric/ID Number</label>
+                        <input type="text" id="input-student-id" value="1094881999" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-medium text-slate-700 focus:ring-2 focus:ring-[#6c5dd3]/20 focus:border-[#6c5dd3] outline-none transition-all" required>
+                    </div>
+                </div>
+
+                <!-- Row 2: Rich Additional Metadata Hooks -->
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-slate-600">Bio Statement</label>
+                    <textarea id="input-student-bio" rows="3" placeholder="Tell us about yourself (e.g., Computer Science major passionate about system architecture...)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-medium text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-[#6c5dd3]/20 focus:border-[#6c5dd3] outline-none transition-all resize-none">Computer Science undergraduate specializing in backend architecture frameworks and distributed operating matrix layouts.</textarea>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-slate-600">Hobbies & Personal Interests</label>
+                    <input type="text" id="input-student-hobbies" value="Coding, Open Source Contribution, Cycling, Sci-Fi Novels" placeholder="Separate hobbies with commas..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-medium text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-[#6c5dd3]/20 focus:border-[#6c5dd3] outline-none transition-all">
+                </div>
+
+                <!-- Footer Command Controls -->
+                <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-50">
+                    <button type="button" id="cancel-profile-btn" class="bg-slate-50 hover:bg-slate-100 text-slate-600 font-bold text-xs px-5 py-3 rounded-xl transition-all cursor-pointer">Cancel</button>
+                    <button type="submit" class="bg-[#6c5dd3] hover:bg-[#5b4cb8] text-white font-bold text-xs px-6 py-3 rounded-xl shadow-md transition-all cursor-pointer uppercase tracking-wider">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- CORE INTERACTION FRONTEND SCRIPT ENGINE -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Mobile Navigation Elements
+            const openBtn = document.getElementById("open-sidebar-btn");
+            const closeBtn = document.getElementById("close-sidebar-btn");
+            const sidebar = document.getElementById("mobile-navigation");
+            const backdrop = document.getElementById("sidebar-backdrop");
+            const viewTitleHeader = document.getElementById("view-title-header");
+
+            // Sidebar Visibility State Logic
+            function toggleMobileSidebar(isActive) {
+                if (isActive) {
+                    backdrop.classList.remove("hidden");
+                    setTimeout(() => {
+                        backdrop.classList.add("opacity-100");
+                        sidebar.classList.remove("-translate-x-full");
+                    }, 10);
+                } else {
+                    sidebar.classList.add("-translate-x-full");
+                    backdrop.classList.remove("opacity-100");
+                    setTimeout(() => {
+                        backdrop.classList.add("hidden");
+                    }, 300);
+                }
+            }
+
+            openBtn.addEventListener("click", () => toggleMobileSidebar(true));
+            closeBtn.addEventListener("click", () => toggleMobileSidebar(false));
+            backdrop.addEventListener("click", () => toggleMobileSidebar(false));
+
+            // View Control & Client Routing Matrix Switcher
+            const navItems = document.querySelectorAll(".nav-item");
+            const portalViews = document.querySelectorAll(".portal-view");
+
+            navItems.forEach(item => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault();
+
+                    // Flush active state formatting rules
+                    navItems.forEach(el => {
+                        el.classList.remove("bg-white/10", "text-white", "font-semibold");
+                        el.classList.add("text-white/70", "font-medium");
+                    });
+
+                    // Set target tracking states
+                    item.classList.add("bg-white/10", "text-white", "font-semibold");
+                    item.classList.remove("text-white/70", "font-medium");
+
+                    const targetViewId = item.getAttribute("data-view");
+                    const viewLabelName = item.textContent.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDC00-\uDFFF]/g, '').trim();
+
+                    // Manage workspace visibility boundaries
+                    portalViews.forEach(view => {
+                        if (view.id === targetViewId) {
+                            view.classList.remove("hidden");
+                            view.classList.add("block");
+                            gsap.from(view, { opacity: 0, y: 15, duration: 0.4, ease: "power2.out" });
+                        } else {
+                            view.classList.remove("block");
+                            view.classList.add("hidden");
+                        }
+                    });
+
+                    // Synchronize title display string
+                    if (viewTitleHeader) {
+                        viewTitleHeader.textContent = viewLabelName;
+                    }
+
+                    // Auto collapse active menu container on lower viewports
+                    if (window.innerWidth < 1024) {
+                        toggleMobileSidebar(false);
+                    }
+                });
+            });
+
+            // Dynamic Real-Time Assessment Search Filter Engine
+            const searchInput = document.getElementById("workspace-search");
+            searchInput.addEventListener("input", (e) => {
+                const searchVal = e.target.value.toLowerCase().trim();
+                const cards = document.querySelectorAll(".exam-card");
+
+                // Automatically pivot back to Active Exams view if the student begins typing from another pane
+                const activeView = document.getElementById("exams-view");
+                if (activeView.classList.contains("hidden")) {
+                    document.querySelector('[data-view="exams-view"]').click();
+                }
+
+                cards.forEach(card => {
+                    const matchTargets = card.querySelectorAll(".search-target");
+                    let matchFound = false;
+
+                    matchTargets.forEach(target => {
+                        if (target.textContent.toLowerCase().includes(searchVal)) {
+                            matchFound = true;
+                        }
+                    });
+
+                    // Respect search filter along with the active category state rules
+                    if (searchVal === "") {
+                        // Revert back to active category default view logic
+                        const currentActiveFilter = document.querySelector(".filter-btn.bg-\\[\\#6c5dd3\\]").getAttribute("data-filter");
+                        if (card.classList.contains(currentActiveFilter)) {
+                            card.classList.remove("hidden");
+                            card.classList.add("flex");
+                        } else {
+                            card.classList.remove("flex");
+                            card.classList.add("hidden");
+                        }
+                    } else {
+                        if (matchFound) {
+                            card.classList.remove("hidden");
+                            card.classList.add("flex");
+                        } else {
+                            card.classList.remove("flex");
+                            card.classList.add("hidden");
+                        }
+                    }
+                });
+            });
+
+            // Interactive Notification Dropdown Toggle Matrix
+            const notifTrigger = document.getElementById("notification-trigger");
+            const notifDropdown = document.getElementById("notification-dropdown");
+            const notifBadge = document.getElementById("notif-badge");
+
+            notifTrigger.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if (notifDropdown.classList.contains("hidden")) {
+                    notifDropdown.classList.remove("hidden");
+                    gsap.to(notifDropdown, { opacity: 1, scale: 1, duration: 0.2, ease: "power2.out" });
+                } else {
+                    closeNotificationMenu();
+                }
+            });
+
+            function closeNotificationMenu() {
+                gsap.to(notifDropdown, { opacity: 0, scale: 0.95, duration: 0.15, ease: "power2.in", onComplete: () => {
+                    notifDropdown.classList.add("hidden");
+                }});
+            }
+
+            document.getElementById("mark-read-btn").addEventListener("click", () => {
+                if (notifBadge) notifBadge.remove();
+                alert("All testing notifications marked as processed.");
+                closeNotificationMenu();
+            });
+
+            // Close notifications popup if clicked anywhere outside the surface area container
+            document.addEventListener("click", (e) => {
+                if (!notifDropdown.classList.contains("hidden") && !notifDropdown.contains(e.target) && e.target !== notifTrigger) {
+                    closeNotificationMenu();
+                }
+            });
+
+            // Dynamic Sub-Category Filtering Matrix System (Available/Completed/Missed)
+            const filterBtns = document.querySelectorAll(".filter-btn");
+            const examCards = document.querySelectorAll(".exam-card");
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    // Reset search field context during hard category switching actions
+                    if (searchInput) searchInput.value = "";
+
+                    filterBtns.forEach(b => {
+                        b.classList.remove("bg-[#6c5dd3]", "text-white");
+                        b.classList.add("bg-slate-50", "border", "border-slate-100", "hover:border-slate-200", "text-slate-500");
+                    });
+
+                    btn.classList.add("bg-[#6c5dd3]", "text-white");
+                    btn.classList.remove("bg-slate-50", "border", "border-slate-100", "hover:border-slate-200", "text-slate-500");
+
+                    const targetFilter = btn.getAttribute("data-filter");
+
+                    examCards.forEach(card => {
+                        if (card.classList.contains(targetFilter)) {
+                            card.classList.remove("hidden");
+                            card.classList.add("flex");
+                        } else {
+                            card.classList.remove("flex");
+                            card.classList.add("hidden");
+                        }
+                    });
+                });
+            });
+
+            // ========================================================
+            // REGISTRATION PROFILE INTERACTIVE DOM LOGIC
+            // ========================================================
+            const profileTriggers = document.querySelectorAll(".profile-click-trigger");
+            const profileModalBackdrop = document.getElementById("profile-modal-backdrop");
+            const profileModal = document.getElementById("profile-modal");
+            const closeProfileModal = document.getElementById("close-profile-modal");
+            const cancelProfileBtn = document.getElementById("cancel-profile-btn");
+            const profileForm = document.getElementById("profile-edit-form");
+
+            // Input fields
+            const inputName = document.getElementById("input-student-name");
+            const inputId = document.getElementById("input-student-id");
+            
+            // Output targets across structural layout elements
+            const displayNames = document.querySelectorAll(".profile-display-name");
+            const displayIds = document.querySelectorAll(".profile-display-id");
+
+            function openRegistrationModal() {
+                profileModalBackdrop.classList.remove("hidden");
+                setTimeout(() => {
+                    profileModalBackdrop.classList.add("opacity-100");
+                    profileModal.classList.remove("scale-95", "opacity-0");
+                    profileModal.classList.add("scale-100", "opacity-100");
+                }, 10);
+            }
+
+            function closeRegistrationModal() {
+                profileModal.classList.remove("scale-100", "opacity-100");
+                profileModal.classList.add("scale-95", "opacity-0");
+                profileModalBackdrop.classList.remove("opacity-100");
+                setTimeout(() => {
+                    profileModalBackdrop.classList.add("hidden");
+                }, 300);
+            }
+
+            profileTriggers.forEach(trigger => {
+                trigger.addEventListener("click", openRegistrationModal);
+            });
+
+            closeProfileModal.addEventListener("click", closeRegistrationModal);
+            cancelProfileBtn.addEventListener("click", closeRegistrationModal);
+            
+            // Close modal layout if clicked on outer backdrop overlay boundary
+            profileModalBackdrop.addEventListener("click", (e) => {
+                if (e.target === profileModalBackdrop) {
+                    closeRegistrationModal();
+                }
+            });
+
+            // Handle Profile updates and apply sync metrics across targets
+            profileForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                const updatedName = inputName.value.trim();
+                const updatedId = inputId.value.trim();
+
+                // Apply changes onto global DOM components instantly
+                displayNames.forEach(node => node.textContent = updatedName);
+                displayIds.forEach(node => node.textContent = updatedId);
+
+                // UI Status Confirmation Pop
+                alert("Profile changes successfully updated and saved locally.");
+                closeRegistrationModal();
+            });
+
+            // Auxiliary Decorative Event Interceptors
+            document.getElementById("quote-card").addEventListener("click", () => {
+                gsap.to("#quote-card", { scale: 0.98, duration: 0.1, yoyo: true, repeat: 1 });
+            });
+
+            document.getElementById("cal-prev").addEventListener("click", () => alert("Loading previous schedule segment."));
+            document.getElementById("cal-next").addEventListener("click", () => alert("Loading advanced schedule segment."));
+        });
+    </script>
+</body>
+</html>

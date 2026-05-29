@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Sphere — Advanced Analytics Vault</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.15; transform: scale(1); }
+            50% { opacity: 0.25; transform: scale(1.02); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-[#f0ebfa] text-slate-700 font-sans min-h-screen relative overflow-x-hidden selection:bg-[#6c5dd3]/30">
+
+    <div class="absolute top-0 right-0 w-[250px] sm:w-[500px] h-[250px] sm:h-[500px] bg-[#6c5dd3] rounded-full filter blur-[80px] sm:blur-[150px] animate-pulse-glow pointer-events-none z-0"></div>
+    <div class="absolute bottom-0 left-0 w-[250px] sm:w-[500px] h-[250px] sm:h-[500px] bg-purple-300 rounded-full filter blur-[80px] sm:blur-[150px] animate-pulse-glow pointer-events-none z-0" style="animation-delay: 1.5s;"></div>
+
+    <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/40 opacity-0 pointer-events-none transition-opacity duration-300 z-40 lg:hidden" onclick="toggleSidebar()"></div>
+    
+    <aside id="dashboard-sidebar" class="fixed top-0 bottom-0 left-0 w-[280px] sm:w-[320px] lg:w-[320px] bg-white/95 backdrop-blur-md border-r border-slate-200/80 p-5 sm:p-6 shadow-2xl lg:shadow-md transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-50 flex flex-col justify-between">
+        <div class="space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-100/80 pb-4">
+                <div class="flex items-center gap-2.5">
+                    <div class="h-8 w-8 relative flex items-center justify-center shrink-0">
+                        <div class="absolute inset-0 rounded-full border border-dashed border-[#6c5dd3]/60"></div>
+                        <div class="h-3 w-3 bg-[#6c5dd3] rounded-full"></div>
+                    </div>
+                    <h1 class="text-lg font-black tracking-tight text-[#1e1b4b]">Test<span class="text-[#6c5dd3]">Sphere</span></h1>
+                </div>
+                <button onclick="toggleSidebar()" class="lg:hidden h-8 w-8 rounded-xl bg-[#f0ebfa] text-[#6c5dd3] font-black text-xs flex items-center justify-center cursor-pointer hover:bg-[#6c5dd3]/20 transition-all">✕</button>
+            </div>
+
+            <div class="bg-[#f0ebfa]/40 border border-[#6c5dd3]/10 rounded-2xl p-4 relative overflow-hidden">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="h-10 w-10 bg-gradient-to-tr from-[#5b4cb8] to-[#6c5dd3] rounded-xl flex items-center justify-center text-white text-sm font-black shadow-sm shrink-0">KJ</div>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-0.5">
+                            <h2 class="text-xs font-black text-[#1e1b4b] truncate">Prof. Kr8tive Johnson</h2>
+                            <span class="text-emerald-500 text-xs shrink-0">🛡️</span>
+                        </div>
+                        <p class="text-[10px] font-semibold text-[#6c5dd3] truncate">Senior Faculty Instructor</p>
+                    </div>
+                </div>
+                <div class="space-y-2 pt-2.5 border-t border-dashed border-slate-200 text-[11px]">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-slate-400 uppercase tracking-wider text-[9px]">Staff ID</span>
+                        <span class="font-mono font-bold text-[#1e1b4b]">STF-8842</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-slate-400 uppercase tracking-wider text-[9px]">Department</span>
+                        <span class="font-bold text-[#1e1b4b] truncate max-w-[130px]">Computer Science</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="space-y-2">
+                <span class="block text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1 px-1">Access Vectors</span>
+                <a href="dashboard.html" class="flex items-center justify-between p-3 bg-[#f0ebfa]/30 hover:bg-[#6c5dd3]/10 border border-slate-100 rounded-xl transition-all group w-full">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="text-base shrink-0">🏠</span>
+                        <div class="min-w-0">
+                            <h4 class="text-xs font-bold text-[#1e1b4b] group-hover:text-[#6c5dd3] transition-colors truncate">Control Terminal</h4>
+                            <p class="text-[10px] text-slate-400 truncate">Return to system overview</p>
+                        </div>
+                    </div>
+                    <span class="text-slate-300 group-hover:text-[#6c5dd3] transition-colors text-xs font-bold pl-1 shrink-0">→</span>
+                </a>
+                <a href="create-test.html" class="flex items-center justify-between p-3 bg-[#f0ebfa]/30 hover:bg-[#6c5dd3]/10 border border-slate-100 rounded-xl transition-all group w-full">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="text-base shrink-0">📝</span>
+                        <div class="min-w-0">
+                            <h4 class="text-xs font-bold text-[#1e1b4b] group-hover:text-[#6c5dd3] transition-colors truncate">Assessment Engine</h4>
+                            <p class="text-[10px] text-slate-400 truncate">Build & deploy test nodes</p>
+                        </div>
+                    </div>
+                    <span class="text-slate-300 group-hover:text-[#6c5dd3] transition-colors text-xs font-bold pl-1 shrink-0">→</span>
+                </a>
+            </nav>
+        </div>
+        <div class="border-t border-slate-100 pt-4">
+            <button onclick="window.location.href='../auth/login.html'" class="w-full text-center px-4 py-2.5 border border-red-100 hover:bg-red-50 text-red-600 bg-white rounded-xl text-xs font-bold shadow-sm transition-all cursor-pointer">
+                Disconnect Session
+            </button>
+        </div>
+    </aside>
+
+    <div class="lg:pl-[320px] transition-all duration-300">
+        <div class="max-w-5xl mx-auto px-4 py-4 sm:py-8 lg:py-10 space-y-6">
+            
+            <header class="flex items-center justify-between bg-white/90 backdrop-blur-md border border-slate-200/80 px-4 py-3 rounded-2xl shadow-sm lg:hidden">
+                <div class="flex items-center gap-2">
+                    <div class="h-8 w-8 bg-gradient-to-tr from-[#5b4cb8] to-[#6c5dd3] rounded-xl flex items-center justify-center text-white text-xs font-black shadow-sm">KJ</div>
+                    <div class="text-left">
+                        <h1 class="text-xs font-black text-[#1e1b4b]">Analytics Vault</h1>
+                        <p class="text-[9px] font-bold text-[#6c5dd3] uppercase">Test Sphere Matrix</p>
+                    </div>
+                </div>
+                <button onclick="toggleSidebar()" class="px-3 py-1.5 bg-[#6c5dd3] text-white text-xs font-bold rounded-xl shadow-md hover:bg-[#5b4cb8] transition-colors cursor-pointer flex items-center gap-1.5">
+                    <span>Menu</span> <span class="text-[10px]">☰</span>
+                </button>
+            </header>
+
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200/60 pb-5">
+                <div>
+                    <h2 class="text-2xl font-black text-[#1e1b4b] tracking-tight">Advanced Analytics Vault</h2>
+                    <p class="text-xs font-medium text-slate-400 mt-0.5">Real-time pedagogical metrics, integrity trackers, and subject mastery distributions.</p>
+                </div>
+                <div class="w-full sm:w-auto">
+                    <select id="course-filter" class="w-full sm:w-48 bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-bold text-[#1e1b4b] focus:outline-none focus:border-[#6c5dd3] cursor-pointer shadow-sm">
+                        <option value="ALL">Show All Courses</option>
+                        <option value="CSC301">CSC 301</option>
+                        <option value="CSC401">CSC 401</option>
+                    </select>
+                </div>
+            </div>
+
+            <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm relative overflow-hidden">
+                    <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Global Class Average</p>
+                    <h3 id="stat-average" class="text-3xl font-black text-[#6c5dd3] mt-1">--</h3>
+                    <div class="absolute right-4 bottom-2 text-3xl opacity-10">📊</div>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm relative overflow-hidden">
+                    <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Overall Pass Rate</p>
+                    <h3 id="stat-pass-rate" class="text-3xl font-black text-emerald-600 mt-1">--</h3>
+                    <div class="absolute right-4 bottom-2 text-3xl opacity-10">📈</div>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm relative overflow-hidden">
+                    <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Total Submissions</p>
+                    <h3 id="stat-total" class="text-3xl font-black text-[#1e1b4b] mt-1">--</h3>
+                    <div class="absolute right-4 bottom-2 text-3xl opacity-10">📥</div>
+                </div>
+            </section>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <div class="col-span-1 lg:col-span-7 bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm space-y-4">
+                    <div>
+                        <h3 class="text-xs font-black uppercase tracking-wider text-[#1e1b4b]">Tag-Mapped Concept Mastery</h3>
+                        <p class="text-[11px] text-slate-400">Derived from automated grouping of question metadata keywords.</p>
+                    </div>
+                    <div id="mastery-bars-container" class="space-y-3.5 pt-2">
+                        <p class="text-xs text-slate-400 italic">Select a specific course code to load concept distribution parameters.</p>
+                    </div>
+                </div>
+
+                <div class="col-span-1 lg:col-span-5 bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm space-y-4">
+                    <div>
+                        <h3 class="text-xs font-black uppercase tracking-wider text-red-600 flex items-center gap-1.5">⚠️ Proctoring Flag Audit</h3>
+                        <p class="text-[11px] text-slate-400">Live system anomalies caught via client tab-lock configurations.</p>
+                    </div>
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-center justify-between p-3 bg-red-50/50 rounded-xl border border-red-100">
+                            <div class="text-left">
+                                <span class="block text-xs font-bold text-red-700">Tab Focus Violations</span>
+                                <p class="text-[10px] text-slate-400">Students switching windows mid-test</p>
+                            </div>
+                            <span id="flag-tab-switches" class="font-mono font-black text-red-600 bg-white border border-red-200 px-2.5 py-1 rounded-lg text-xs">0</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-amber-50/50 rounded-xl border border-amber-100">
+                            <div class="text-left">
+                                <span class="block text-xs font-bold text-amber-700">Stale Inactivity Timeouts</span>
+                                <p class="text-[10px] text-slate-400">Idle terminals exceeding 5 minutes</p>
+                            </div>
+                            <span id="flag-timeouts" class="font-mono font-black text-amber-600 bg-white border border-amber-200 px-2.5 py-1 rounded-lg text-xs">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="bg-white border border-slate-200/80 rounded-[24px] overflow-hidden shadow-sm">
+                <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+                    <h4 class="text-xs font-black uppercase tracking-wider text-[#1e1b4b]">Student Submission Ledger</h4>
+                    <span class="text-[10px] font-bold text-[#6c5dd3] bg-[#f0ebfa] px-2.5 py-1 rounded-xl">Live Audit Node</span>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-400 bg-white">
+                                <th class="px-6 py-4">Student ID</th>
+                                <th class="px-6 py-4">Assessment Context</th>
+                                <th class="px-6 py-4 text-center">Accuracy Matrix</th>
+                                <th class="px-6 py-4 text-center">Score %</th>
+                                <th class="px-6 py-4 text-center">GP</th>
+                                <th class="px-6 py-4 text-right">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ledger-target" class="divide-y divide-slate-50 text-xs font-medium text-slate-600">
+                            </tbody>
+                    </table>
+                </div>
+                
+                <div id="empty-state" class="hidden flex flex-col items-center justify-center py-16 px-6">
+                    <div class="h-16 w-16 bg-[#f0ebfa] rounded-full flex items-center justify-center text-xl mb-3">🔍</div>
+                    <p class="text-sm font-bold text-[#1e1b4b]">No Registry Records Found</p>
+                    <p class="text-xs text-slate-400 mt-0.5">No exam matrices have been processed for this course block selection yet.</p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('dashboard-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if(sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const courseFilter = document.getElementById("course-filter");
+            const ledgerTarget = document.getElementById("ledger-target");
+            const emptyState = document.getElementById("empty-state");
+            const masteryContainer = document.getElementById("mastery-bars-container");
+
+            async function pullAnalyticsData() {
+                const selectedCourse = courseFilter.value;
+                
+                try {
+                    const response = await fetch(`/api/analytics/overview?courseCode=${selectedCourse}`);
+                    const data = await response.json();
+
+                    if (!data.success) {
+                        alert("Error syncing advanced payload from database nodes.");
+                        return;
+                    }
+
+                    // 1. POPULATE GLOBAL CARD STATS
+                    document.getElementById("stat-average").textContent = data.metrics.classAverage + "%";
+                    document.getElementById("stat-pass-rate").textContent = data.metrics.passRate + "%";
+                    document.getElementById("stat-total").textContent = data.metrics.totalSubmissions;
+
+                    // 2. POPULATE PROCTOR SECURITY AUDIT FLAGS
+                    document.getElementById("flag-tab-switches").textContent = data.metrics.tabSwitches || 0;
+                    document.getElementById("flag-timeouts").textContent = data.metrics.timeouts || 0;
+
+                    // 3. GENERATE DYNAMIC TOPIC MASTERY BARS
+                    masteryContainer.innerHTML = "";
+                    if(data.metrics.topicMastery && Object.keys(data.metrics.topicMastery).length > 0) {
+                        Object.entries(data.metrics.topicMastery).forEach(([topic, percent]) => {
+                            const barNode = document.createElement("div");
+                            barNode.className = "space-y-1";
+                            barNode.innerHTML = `
+                                <div class="flex justify-between text-[11px] font-bold">
+                                    <span class="text-[#1e1b4b] font-mono">${topic}</span>
+                                    <span class="text-[#6c5dd3]">${percent}% Mastery</span>
+                                </div>
+                                <div class="w-full bg-[#f0ebfa] h-2 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-[#5b4cb8] to-[#6c5dd3] h-full rounded-full transition-all duration-1000" style="width: ${percent}%"></div>
+                                </div>
+                            `;
+                            masteryContainer.appendChild(barNode);
+                        });
+                    } else {
+                        masteryContainer.innerHTML = `<p class="text-xs text-slate-400 italic">No topic tags mapped for this current system segment selection.</p>`;
+                    }
+
+                    // 4. PARSE SUBMISSION TABLE LEDGER ROWS
+                    ledgerTarget.innerHTML = "";
+
+                    if (data.results.length === 0) {
+                        emptyState.classList.remove("hidden");
+                        return;
+                    }
+                    emptyState.classList.add("hidden");
+
+                    data.results.forEach((row) => {
+                        const tr = document.createElement("tr");
+                        tr.className = "hover:bg-slate-50/80 transition-colors group";
+                        
+                        const statusBadgeClass = row.status === "PASS" 
+                            ? "bg-emerald-50 text-emerald-600 border border-emerald-100" 
+                            : "bg-red-50 text-red-600 border border-red-100";
+
+                        tr.innerHTML = `
+                            <td class="px-6 py-4 font-mono font-bold text-[#1e1b4b]">STU-${row.student_id}</td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-col">
+                                    <span class="text-[#1e1b4b] font-bold">${row.course_code}</span>
+                                    <span class="text-[10px] text-slate-400 uppercase tracking-tight">${row.test_title}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-center text-slate-500 font-medium">${row.correct_answers} / ${row.total_questions}</td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="font-black text-[#1e1b4b] text-sm">${row.score_percentage}%</span>
+                                <span class="text-[10px] text-[#6c5dd3] font-bold ml-1">(${row.letter_grade})</span>
+                            </td>
+                            <td class="px-6 py-4 text-center font-mono font-bold text-slate-400">${parseFloat(row.grade_point).toFixed(2)}</td>
+                            <td class="px-6 py-4 text-right">
+                                <span class="px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest ${statusBadgeClass}">
+                                    ${row.status}
+                                </span>
+                            </td>
+                        `;
+                        ledgerTarget.appendChild(tr);
+                    });
+
+                } catch (err) {
+                    console.error("Client analytics runtime rendering block error:", err);
+                }
+            }
+
+            courseFilter.addEventListener("change", pullAnalyticsData);
+            pullAnalyticsData();
+        });
+    </script>
+</body>
+</html>

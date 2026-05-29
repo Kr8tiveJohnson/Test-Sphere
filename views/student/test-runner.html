@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Runner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen py-10">
+    <div id="test-container" class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-sm">
+        <div id="loader" class="text-center font-bold text-lg">Loading your assessment...</div>
+        <div id="quiz-ui" class="hidden space-y-6">
+            <h1 class="text-2xl font-black text-slate-800">Assessment Questions</h1>
+            <div id="questions-list"></div>
+            <button onclick="alert('Submission logic goes here!')" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700">Submit Answers</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const testId = new URLSearchParams(window.location.search).get('testId');
+            const questionsList = document.getElementById('questions-list');
+            const loader = document.getElementById('loader');
+            const quizUi = document.getElementById('quiz-ui');
+
+            try {
+                const response = await fetch(`/api/tests/fetch/${testId}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    data.questions.forEach((q, index) => {
+                        questionsList.innerHTML += `
+                            <div class="mb-6 p-4 border rounded-xl">
+                                <p class="font-bold mb-3">${index + 1}. ${q.q}</p>
+                                <div class="space-y-2">
+                                    ${q.options.map(opt => `<button class="block w-full text-left p-2 border rounded-lg hover:bg-indigo-50">${opt}</button>`).join('')}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    loader.classList.add('hidden');
+                    quizUi.classList.remove('hidden');
+                }
+            } catch (err) {
+                loader.textContent = "Failed to load questions.";
+            }
+        });
+    </script>
+</body>
+</html>

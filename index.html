@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="7; url=views/auth/login.html">
+    <title>Test Sphere — Loading Portal</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        /* Custom Keyframe Animations matching your exact brand profile */
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.15; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.05); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+
+        /* Unique Orbit Core Spin and Expand Animation */
+        @keyframes sphere-orbit-spin {
+            0% { transform: rotate(0deg) scale(0.96); }
+            50% { transform: rotate(180deg) scale(1.04); }
+            100% { transform: rotate(360deg) scale(0.96); }
+        }
+        .animate-sphere-orbit {
+            animation: sphere-orbit-spin 3s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="bg-[#f0ebfa] min-h-screen flex flex-col items-center justify-center relative overflow-hidden selection:bg-[#6c5dd3]/30">
+
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-[#6c5dd3] rounded-full filter blur-[120px] animate-pulse-glow pointer-events-none"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-300 rounded-full filter blur-[120px] animate-pulse-glow pointer-events-none" style="animation-delay: 1s;"></div>
+
+    <div class="relative z-10 flex flex-col items-center space-y-6 text-center px-6">
+        
+        <div class="h-20 w-20 relative flex items-center justify-center animate-sphere-orbit">
+            <div class="absolute inset-0 rounded-full border-2 border-dashed border-[#6c5dd3]/40"></div>
+            <div class="absolute inset-2 rounded-full border-2 border-[#6c5dd3] shadow-[0_0_15px_rgba(108,93,211,0.2)]"></div>
+            <div class="h-8 w-8 bg-gradient-to-tr from-[#5b4cb8] to-[#6c5dd3] rounded-full shadow-md relative z-10 flex items-center justify-center">
+                <div class="h-2 w-2 bg-white rounded-full animate-ping"></div>
+            </div>
+        </div>
+
+        <div class="space-y-2">
+            <h1 class="text-3xl font-black tracking-tight text-[#1e1b4b]">
+                Test<span class="text-[#6c5dd3]">Sphere</span>
+            </h1>
+            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-2">
+                Securing Assessment Environment
+            </p>
+        </div>
+
+        <div class="w-48 h-1.5 bg-white rounded-full overflow-hidden border border-slate-200/60 relative shadow-inner">
+            <div class="h-full bg-[#6c5dd3] rounded-full absolute top-0 left-0 animate-[loading-bar_1.5s_infinite_ease-in-out]" style="width: 40%;"></div>
+        </div>
+    </div>
+
+    <div class="absolute bottom-8 left-0 right-0 text-center z-10">
+        <p class="text-[11px] font-medium text-slate-400">
+            Taking too long? <a href="views/auth/login.html" class="text-[#6c5dd3] hover:text-[#5b4cb8] font-bold underline transition-colors">Click here to manually redirect</a>
+        </p>
+    </div>
+
+    <script>
+        (function() {
+            // Suspends routing transition layout for exactly 6000 milliseconds (6 Seconds)
+            setTimeout(function() {
+                window.location.href = "views/auth/login.html";
+            }, 6000);
+        })();
+    </script>
+
+    <style>
+        @keyframes loading-bar {
+            0% { left: -40%; }
+            50% { width: 60%; }
+            100% { left: 100%; }
+        }
+    </style>
+</body>
+</html>
