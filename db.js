@@ -1,5 +1,7 @@
 // db.js
 const { Sequelize } = require('sequelize');
+// Force Vercel to bundle pg dialect for Sequelize
+require('pg');
 require('dotenv').config();
 
 console.log('⏳ Initializing core Sequelize database instance...');
