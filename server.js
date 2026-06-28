@@ -123,6 +123,7 @@ app.get('/student/portal', (req, res) => res.sendFile(path.join(__dirname, 'view
 // Lecturer Routes
 app.get('/lecturer/dashboard', (req, res) => res.sendFile(path.join(__dirname, 'views', 'lecturer', 'dashboard.html')));
 app.get('/lecturer/builder', (req, res) => res.sendFile(path.join(__dirname, 'views', 'lecturer', 'create-test.html')));
+app.get('/lecturer/analytics', (req, res) => res.sendFile(path.join(__dirname, 'views', 'lecturer', 'analytics.html')));
 
 // Admin Routes
 app.get('/admin/dashboard', (req, res) => res.sendFile(path.join(__dirname, 'views', 'admin', 'dashboard.html')));

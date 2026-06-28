@@ -68,7 +68,9 @@ exports.login = async (req, res) => {
         );
 
         res.status(200).json({
+            success: true,
             token: `Bearer ${token}`,
+            role: user.role,
             user: { 
                 id: user.id, 
                 name: user.name, 

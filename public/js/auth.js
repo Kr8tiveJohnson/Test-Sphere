@@ -24,6 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const data = await response.json();
 
                 if (data.success) {
+                    localStorage.setItem("authToken", data.token);
+                    localStorage.setItem("authUser", JSON.stringify(data.user));
                     // Redirect the user to their specific system interface based on database role
                     if (data.role === "admin") {
                         window.location.href = `${API_BASE}/admin/dashboard`;
