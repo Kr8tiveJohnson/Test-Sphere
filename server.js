@@ -81,7 +81,7 @@ app.get('/api/health-check', async (req, res) => {
 // Mount all test-sphere endpoints under the "/api" root prefix
 app.use('/api', apiRoutes);
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'views')));
+app.use('/views', express.static(path.join(__dirname, 'views')));
 // ==========================================
 // 🚀 DEPLOYMENT RUNTIME INITIALIZATION
 // ==========================================
