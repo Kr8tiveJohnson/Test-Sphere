@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
+const path = require('path');
 require('dotenv').config();
 
 // ==========================================
@@ -33,9 +34,9 @@ app.use(passport.initialize()); // Initialize Passport instance
 // 🌐 NETWORK ENTRY ARCHITECTURE
 // ==========================================
 
-// Base Server Core Verification Route
+// Base Server Core Verification Route - Serve Frontend Landing Page
 app.get('/', (req, res) => {
-    res.status(200).json({ status: "online", message: "Test Sphere API Engine running smoothly." });
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Diagnostic Storage Connectivity Verification Endpoint
@@ -79,8 +80,6 @@ app.get('/api/health-check', async (req, res) => {
 
 // Mount all test-sphere endpoints under the "/api" root prefix
 app.use('/api', apiRoutes);
-const path = require('path');
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'views')));
 // ==========================================
