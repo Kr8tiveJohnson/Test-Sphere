@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Sphere - Live Assessment Engine</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="/js/api-config.js"></script>
     <style>
         ::-webkit-scrollbar {
             width: 6px;
@@ -297,7 +298,7 @@
             const testId = new URLSearchParams(window.location.search).get('testId');
             if (testId) {
                 try {
-                    const response = await fetch(`http://127.0.0.1:5000/api/tests/fetch/${testId}`);
+                    const response = await fetch(`${API_BASE}/api/tests/fetch/${testId}`);
                     const data = await response.json();
                     if (data.success && data.questions && data.questions.length > 0) {
                         assessmentDataset.length = 0; // clear hardcoded set

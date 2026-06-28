@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="/js/api-config.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -361,7 +362,7 @@
                 const email    = document.getElementById('login-email').value;
                 const password = document.getElementById('login-password').value;
                 try {
-                    const res  = await fetch('http://127.0.0.1:5000/api/auth/login', {
+                    const res  = await fetch(`${API_BASE}/api/auth/login`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ email, password })
@@ -369,9 +370,9 @@
                     const data = await res.json();
                     if (data.token) {
                         alert('Authentication successful!');
-                        if (data.user.role === 'admin')    window.location.href = 'http://127.0.0.1:5000/admin/dashboard';
-                        else if (data.user.role === 'lecturer') window.location.href = 'http://127.0.0.1:5000/lecturer/builder';
-                        else window.location.href = 'http://127.0.0.1:5000/student/portal';
+                        if (data.user.role === 'admin')    window.location.href = `${API_BASE}/admin/dashboard`;
+                        else if (data.user.role === 'lecturer') window.location.href = `${API_BASE}/lecturer/builder`;
+                        else window.location.href = `${API_BASE}/student/portal`;
                     } else {
                         alert(data.message || 'Authentication failed.');
                     }
@@ -396,7 +397,7 @@
                     matricNumber: document.getElementById('matric-field').value,
                     level:        document.getElementById('level-field').value
                 };
-                const res  = await fetch('http://127.0.0.1:5000/api/auth/register', {
+                const res  = await fetch(`${API_BASE}/api/auth/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)

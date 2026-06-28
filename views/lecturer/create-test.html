@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="/js/api-config.js"></script>
     <style>
         @keyframes pulse-glow {
             0%, 100% { opacity: 0.15; transform: scale(1); }
@@ -99,7 +100,7 @@
             </nav>
         </div>
         <div class="border-t border-slate-100 pt-4">
-            <button onclick="window.location.href='../auth/login.html'" class="w-full text-center px-4 py-2.5 border border-red-100 hover:bg-red-50 text-red-600 bg-white rounded-xl text-xs font-bold shadow-sm transition-all cursor-pointer">
+            <button onclick="window.location.href='/views/auth/login.html'" class="w-full text-center px-4 py-2.5 border border-red-100 hover:bg-red-50 text-red-600 bg-white rounded-xl text-xs font-bold shadow-sm transition-all cursor-pointer">
                 Disconnect Session
             </button>
         </div>
@@ -415,7 +416,7 @@
                 };
 
                 try {
-                    const response = await fetch("http://127.0.0.1:5000/api/tests/create", {
+                    const response = await fetch(`${API_BASE}/api/tests/create`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(payload)
