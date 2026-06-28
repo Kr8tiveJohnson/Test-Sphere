@@ -7,12 +7,16 @@ exports.createTest = async (req, res) => {
         
         // Generate the test matrix tied to the course
         const test = await Test.create({ 
-            title, 
-            duration, 
-            questions, 
-            courseId 
+            title,
+            courseId,
+            questions
         });
 
+if (!questions.length) {
+    return res.status(400).json({
+        message: 'At least one question required'
+    });
+}
         // Optimize performance: Invalidate relevant course tests cache instantly on mutation
         if (redisClient.isOpen) {
             await redisClient.del(`analytics:course:${courseId}`);

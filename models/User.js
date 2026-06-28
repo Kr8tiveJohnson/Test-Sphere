@@ -27,6 +27,26 @@ module.exports = (sequelize) => {
             type: DataTypes.ENUM('admin', 'lecturer', 'student'),
             defaultValue: 'student'
         },
+
+        institution: {
+    type: DataTypes.STRING
+},
+
+matricNumber: {
+    type: DataTypes.STRING
+},
+
+level: {
+    type: DataTypes.STRING
+},
+
+staffId: {
+    type: DataTypes.STRING
+},
+
+department: {
+    type: DataTypes.STRING
+},
         // 📧 6-DIGIT EMAIL VERIFICATION FIELDS
         verificationCode: {
             type: DataTypes.STRING,

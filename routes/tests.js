@@ -8,14 +8,28 @@ router.post("/create", async (req, res) => {
     const client = await pool.connect();
     try {
         await client.query("BEGIN");
+        
+        let courseResult = await client.query("SELECT id FROM courses WHERE course_code = $1", [courseCode]);
+        let courseId;
+        if (courseResult.rows.length === 0) {
+            const newCourse = await client.query(
+                "INSERT INTO courses (course_code, course_title) VALUES ($1, $2) RETURNING id",
+                [courseCode, courseCode + " (Auto Created)"]
+            );
+            courseId = newCourse.rows[0].id;
+        } else {
+            courseId = courseResult.rows[0].id;
+        }
+
         const testInsertion = await client.query(
-            "INSERT INTO tests (course_code, title, duration, total_marks) VALUES ($1, $2, $3, $4) RETURNING id",
-            [courseCode, title, parseInt(duration), parseInt(totalMarks)]
+            "INSERT INTO tests (course_id, title, duration_minutes) VALUES ($1, $2, $3) RETURNING id",
+            [courseId, title, parseInt(duration)]
         );
         const createdTestId = testInsertion.rows[0].id;
+        
         for (let q of questions) {
             await client.query(
-                `INSERT INTO test_questions (test_id, question_text, option_a, option_b, option_c, option_d, correct_answer) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+                `INSERT INTO questions (test_id, question_text, option_a, option_b, option_c, option_d, correct_option) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
                 [createdTestId, q.questionText, q.optionA, q.optionB, q.optionC, q.optionD, q.correctAnswer]
             );
         }
@@ -23,7 +37,8 @@ router.post("/create", async (req, res) => {
         return res.status(201).json({ success: true, testId: createdTestId });
     } catch (error) {
         await client.query("ROLLBACK");
-        return res.status(500).json({ success: false, message: "Transaction failed." });
+        console.error("Test Creation Error:", error);
+        return res.status(500).json({ success: false, message: "Transaction failed.", error: error.message });
     } finally {
         client.release();
     }
@@ -39,16 +54,24 @@ router.get("/fetch/:id", async (req, res) => {
 
     try {
         const questionsQuery = await pool.query(
-            `SELECT id, question_text, option_a, option_b, option_c, option_d 
-             FROM test_questions WHERE test_id = $1`,
+            `SELECT id, question_text, option_a, option_b, option_c, option_d, correct_option 
+             FROM questions WHERE test_id = $1`,
             [testId]
         );
 
-        const formattedQuestions = questionsQuery.rows.map((row, index) => ({
-            id: index + 1,
-            q: row.question_text,
-            options: [row.option_a, row.option_b, row.option_c, row.option_d]
-        }));
+        const formattedQuestions = questionsQuery.rows.map((row, index) => {
+            let correctIndex = 0;
+            if (row.correct_option === 'B') correctIndex = 1;
+            else if (row.correct_option === 'C') correctIndex = 2;
+            else if (row.correct_option === 'D') correctIndex = 3;
+
+            return {
+                id: index + 1,
+                q: row.question_text,
+                options: [row.option_a, row.option_b, row.option_c, row.option_d],
+                correct: correctIndex
+            };
+        });
 
         return res.status(200).json({ success: true, questions: formattedQuestions });
 

@@ -164,30 +164,31 @@
         <!-- Right Side Terminal Panel -->
         <section class="col-span-1 lg:col-span-3 bg-slate-50/50 border-t lg:border-t-0 lg:border-l border-slate-100 p-6 sm:p-8 flex flex-col justify-between space-y-8">
             
-            <div class="flex items-center justify-between lg:justify-end gap-3.5 pb-2 border-b border-slate-100 lg:border-none">
-                <div class="lg:hidden text-left">
-                    <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold block">Live Timer</span>
-                    <span id="mobile-countdown-timer" class="text-lg font-black text-rose-500 font-mono">60:00</span>
-                </div>
-                <div class="flex items-center gap-3.5">
-                    <div class="text-right">
-                        <h4 class="text-sm font-bold text-[#1e1b4b]">Christine Eva</h4>
-                        <span class="text-[10px] font-mono text-slate-400">Matric: 1094881999</span>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=120&h=120" 
-                         alt="Student Profile" 
-                         class="h-11 w-11 rounded-xl object-cover border-2 border-[#6c5dd3] shadow-xs">
-                </div>
+            <!-- Mobile Timer Strip -->
+            <div class="flex items-center justify-between lg:hidden pb-2 border-b border-slate-100">
+                <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Time Remaining</span>
+                <span id="mobile-countdown-timer" class="text-lg font-black text-rose-500 font-mono">30:00</span>
             </div>
 
-            <!-- Desktop View Countdown Clock Counter Layout -->
-            <div class="bg-white border border-slate-100 rounded-3xl p-6 shadow-[0_15px_30px_rgba(244,63,94,0.02)] text-center space-y-2 hidden lg:block">
-                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-widest block">Time Remaining</span>
-                <div id="desktop-countdown-timer" class="text-4xl font-black text-rose-500 font-mono tracking-tight py-2 bg-rose-50/40 rounded-2xl border border-rose-100/50">
-                    60:00
+            <!-- Desktop Circular Ring Timer -->
+            <div class="hidden lg:flex flex-col items-center gap-3 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
+                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Time Remaining</span>
+                <div class="relative w-36 h-36">
+                    <svg class="w-full h-full -rotate-90" viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="#f1f5f9" stroke-width="10"/>
+                        <circle id="timer-ring" cx="60" cy="60" r="50" fill="none" stroke="#f43f5e" stroke-width="10"
+                            stroke-linecap="round"
+                            stroke-dasharray="314.16"
+                            stroke-dashoffset="0"
+                            class="transition-all duration-1000"/>
+                    </svg>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                        <span id="desktop-countdown-timer" class="text-2xl font-black text-rose-500 font-mono leading-none">30:00</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest text-slate-400 mt-1">left</span>
+                    </div>
                 </div>
-                <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
-                    <div id="timer-progress-fill" class="bg-rose-500 h-full rounded-full transition-all duration-1000" style="width: 100%;"></div>
+                <div class="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
+                    <div id="timer-progress-fill" class="bg-rose-400 h-full rounded-full transition-all duration-1000" style="width: 100%;"></div>
                 </div>
             </div>
 
@@ -287,12 +288,36 @@
         ];
 
         let activeQuestionIndex = 0; 
-        const studentResponses = Array(assessmentDataset.length).fill(null);
-        const flaggedQuestions = Array(assessmentDataset.length).fill(false);
-        let totalDurationSeconds = 60 * 60; 
+        let studentResponses = [];
+        let flaggedQuestions = [];
+        let totalDurationSeconds = 30 * 60; 
         let trackingTimerInterval = null;
 
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("DOMContentLoaded", async () => {
+            const testId = new URLSearchParams(window.location.search).get('testId');
+            if (testId) {
+                try {
+                    const response = await fetch(`http://127.0.0.1:5000/api/tests/fetch/${testId}`);
+                    const data = await response.json();
+                    if (data.success && data.questions && data.questions.length > 0) {
+                        assessmentDataset.length = 0; // clear hardcoded set
+                        data.questions.forEach((q, i) => {
+                            assessmentDataset.push({
+                                id: i + 1,
+                                q: q.q || q.question,
+                                options: q.options,
+                                correct: q.correct !== undefined ? q.correct : 0
+                            });
+                        });
+                    }
+                } catch (err) {
+                    console.error("Failed to fetch assessment questions:", err);
+                }
+            }
+
+            studentResponses = Array(assessmentDataset.length).fill(null);
+            flaggedQuestions = Array(assessmentDataset.length).fill(false);
+            
             const openBtn = document.getElementById("open-sidebar-btn");
             const closeBtn = document.getElementById("close-sidebar-btn");
             const sidebar = document.getElementById("mobile-navigation");
@@ -426,6 +451,7 @@
         function initializeCountdownClock() {
             clearInterval(trackingTimerInterval);
             const totalDurationBaseline = totalDurationSeconds;
+            const circumference = 314.16;
             trackingTimerInterval = setInterval(() => {
                 if (totalDurationSeconds <= 0) { clearInterval(trackingTimerInterval); executeAutomatedTimeOutSubmission(); return; }
                 totalDurationSeconds--;
@@ -434,9 +460,22 @@
                 const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
                 document.getElementById("desktop-countdown-timer").textContent = formattedTime;
                 document.getElementById("mobile-countdown-timer").textContent = formattedTime;
-                const percentageRemaining = (totalDurationSeconds / totalDurationBaseline) * 100;
+                const percentageRemaining = (totalDurationSeconds / totalDurationBaseline);
+                // Update SVG ring
+                const ring = document.getElementById("timer-ring");
+                if (ring) {
+                    ring.style.strokeDashoffset = circumference * (1 - percentageRemaining);
+                    // Turn orange at <33%, red pulse at <10%
+                    if (percentageRemaining < 0.1) {
+                        ring.style.stroke = "#ef4444";
+                        document.getElementById("desktop-countdown-timer").style.color = "#ef4444";
+                    } else if (percentageRemaining < 0.33) {
+                        ring.style.stroke = "#f97316";
+                        document.getElementById("desktop-countdown-timer").style.color = "#f97316";
+                    }
+                }
                 const progressFill = document.getElementById("timer-progress-fill");
-                progressFill.style.width = `${percentageRemaining}%`;
+                progressFill.style.width = `${percentageRemaining * 100}%`;
             }, 1000);
         }
 

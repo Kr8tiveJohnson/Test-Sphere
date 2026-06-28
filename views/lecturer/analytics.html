@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Test Sphere Analytics Vault — Track student performance and assessments.">
     <title>Test Sphere — Advanced Analytics Vault</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         @keyframes pulse-glow {
@@ -15,7 +19,7 @@
         }
     </style>
 </head>
-<body class="bg-[#f0ebfa] text-slate-700 font-sans min-h-screen relative overflow-x-hidden selection:bg-[#6c5dd3]/30">
+<body class="bg-[#f0ebfa] text-slate-700 font-sans min-h-screen relative overflow-x-hidden selection:bg-[#6c5dd3]/30" style="font-family:'Inter',sans-serif">
 
     <div class="absolute top-0 right-0 w-[250px] sm:w-[500px] h-[250px] sm:h-[500px] bg-[#6c5dd3] rounded-full filter blur-[80px] sm:blur-[150px] animate-pulse-glow pointer-events-none z-0"></div>
     <div class="absolute bottom-0 left-0 w-[250px] sm:w-[500px] h-[250px] sm:h-[500px] bg-purple-300 rounded-full filter blur-[80px] sm:blur-[150px] animate-pulse-glow pointer-events-none z-0" style="animation-delay: 1.5s;"></div>
@@ -113,8 +117,13 @@
                 <div class="w-full sm:w-auto">
                     <select id="course-filter" class="w-full sm:w-48 bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-bold text-[#1e1b4b] focus:outline-none focus:border-[#6c5dd3] cursor-pointer shadow-sm">
                         <option value="ALL">Show All Courses</option>
+                        <option value="CSC101">CSC 101</option>
+                        <option value="CSC201">CSC 201</option>
                         <option value="CSC301">CSC 301</option>
                         <option value="CSC401">CSC 401</option>
+                        <option value="MTH101">MTH 101</option>
+                        <option value="PHY101">PHY 101</option>
+                        <option value="GST101">GST 101</option>
                     </select>
                 </div>
             </div>
@@ -229,7 +238,7 @@
                 const selectedCourse = courseFilter.value;
                 
                 try {
-                    const response = await fetch(`/api/analytics/overview?courseCode=${selectedCourse}`);
+                    const response = await fetch(`http://127.0.0.1:5000/api/analytics/overview?courseCode=${selectedCourse}`);
                     const data = await response.json();
 
                     if (!data.success) {

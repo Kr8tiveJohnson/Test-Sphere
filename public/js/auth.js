@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const password = loginForm.querySelector("input[type='password']").value;
 
             try {
-                const response = await fetch("/api/auth/login", {
+                const response = await fetch("http://127.0.0.1:5000/api/auth/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, password })
@@ -26,11 +26,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (data.success) {
                     // Redirect the user to their specific system interface based on database role
                     if (data.role === "admin") {
-                        window.location.href = "/admin/dashboard";
+                        window.location.href = "http://127.0.0.1:5000/admin/dashboard";
                     } else if (data.role === "lecturer") {
-                        window.location.href = "/lecturer/builder";
+                        window.location.href = "http://127.0.0.1:5000/lecturer/builder";
                     } else if (data.role === "student") {
-                        window.location.href = "/student/portal";
+                        window.location.href = "http://127.0.0.1:5000/student/portal";
                     }
                 } else {
                     alert(`Authentication Failed: ${data.message}`);
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             try {
-                const response = await fetch("/api/auth/signup", {
+                const response = await fetch("http://127.0.0.1:5000/api/auth/signup", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)

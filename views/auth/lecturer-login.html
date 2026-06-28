@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Test Sphere Student Authentication Portal — Sign in or create your student account.">
-    <title>Test Sphere — Student Portal</title>
+    <meta name="description" content="Test Sphere Lecturer Authentication Portal — Sign in or create your lecturer account.">
+    <title>Test Sphere — Lecturer Portal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -19,6 +19,9 @@
             --text-muted: #94a3b8;
             --border: #e2e8f0;
             --input-bg: rgba(240,235,250,.4);
+            --amber: #d97706;
+            --amber-border: #fcd34d;
+            --amber-bg: rgba(251,191,36,.08);
         }
 
         html { font-size: 16px; }
@@ -61,16 +64,10 @@
         }
 
         /* Brand Header */
-        .brand-header {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
+        .brand-header { text-align: center; margin-bottom: 1.5rem; }
         .brand-orbit {
             width: 48px; height: 48px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: relative; display: flex; align-items: center; justify-content: center;
             margin: 0 auto 10px;
             animation: spin 10s linear infinite;
         }
@@ -81,15 +78,12 @@
 
         .brand-title {
             font-size: clamp(1.2rem,4vw,1.55rem);
-            font-weight: 900;
-            color: var(--text-dark);
-            letter-spacing: -.03em;
+            font-weight: 900; color: var(--text-dark); letter-spacing: -.03em;
         }
         .brand-title span { color: var(--brand); }
         .brand-badge {
-            font-size: .6rem; font-weight: 700;
-            letter-spacing: .15em; text-transform: uppercase;
-            color: var(--text-muted); margin-left: 6px;
+            font-size: .6rem; font-weight: 700; letter-spacing: .15em;
+            text-transform: uppercase; color: var(--text-muted); margin-left: 6px;
         }
 
         /* Card */
@@ -104,123 +98,79 @@
 
         /* Tab switcher */
         .tab-bar {
-            display: flex;
-            background: var(--brand-bg);
-            border: 1px solid rgba(226,232,240,.4);
-            border-radius: 14px;
-            padding: 5px;
-            position: relative;
-            margin-bottom: 1.75rem;
+            display: flex; background: var(--brand-bg);
+            border: 1px solid rgba(226,232,240,.4); border-radius: 14px;
+            padding: 5px; position: relative; margin-bottom: 1.75rem;
         }
         .tab-pill {
-            position: absolute;
-            top: 5px; bottom: 5px; left: 5px;
-            width: calc(50% - 5px);
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 1px 4px rgba(0,0,0,.08);
-            transition: left .25s cubic-bezier(.4,0,.2,1);
+            position: absolute; top: 5px; bottom: 5px; left: 5px;
+            width: calc(50% - 5px); background: white; border-radius: 10px;
+            box-shadow: 0 1px 4px rgba(0,0,0,.08); transition: left .25s cubic-bezier(.4,0,.2,1);
         }
         .tab-btn {
-            flex: 1;
-            text-align: center;
-            padding: .7rem .5rem;
-            border-radius: 10px;
-            font-size: .72rem;
-            font-weight: 700;
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            cursor: pointer;
-            border: none;
-            background: transparent;
-            position: relative;
-            z-index: 1;
-            transition: color .2s;
-            color: var(--text-muted);
+            flex: 1; text-align: center; padding: .7rem .5rem; border-radius: 10px;
+            font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+            cursor: pointer; border: none; background: transparent;
+            position: relative; z-index: 1; transition: color .2s; color: var(--text-muted);
         }
         .tab-btn.active { color: var(--brand); }
 
-        /* Section headings */
+        /* Form */
         .form-heading { margin-bottom: 1.25rem; }
-        .form-heading h2 {
-            font-size: clamp(1rem,3.5vw,1.25rem);
-            font-weight: 800;
-            color: var(--text-dark);
-            letter-spacing: -.02em;
-        }
+        .form-heading h2 { font-size: clamp(1rem,3.5vw,1.25rem); font-weight: 800; color: var(--text-dark); letter-spacing: -.02em; }
         .form-heading p { font-size: .75rem; color: var(--text-muted); margin-top: 4px; }
 
-        /* Form elements */
         .form-group { margin-bottom: 1rem; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
         @media (max-width: 400px) { .form-row { grid-template-columns: 1fr; } }
 
         label {
-            display: block;
-            font-size: .65rem;
-            font-weight: 700;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 6px;
+            display: block; font-size: .65rem; font-weight: 700;
+            letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;
         }
+        label.amber { color: var(--amber); }
 
         input, select {
-            width: 100%;
-            background: var(--input-bg);
-            border: 1.5px solid var(--border);
-            border-radius: 12px;
-            padding: .8rem 1rem;
-            font-size: .82rem;
-            font-family: 'Inter', sans-serif;
-            font-weight: 500;
-            color: var(--text-dark);
-            outline: none;
-            transition: border-color .2s, background .2s, box-shadow .2s;
-            appearance: none;
-            -webkit-appearance: none;
+            width: 100%; background: var(--input-bg); border: 1.5px solid var(--border);
+            border-radius: 12px; padding: .8rem 1rem; font-size: .82rem;
+            font-family: 'Inter', sans-serif; font-weight: 500; color: var(--text-dark);
+            outline: none; transition: border-color .2s, background .2s, box-shadow .2s;
+            appearance: none; -webkit-appearance: none;
         }
         input::placeholder { color: #cbd5e1; }
         input:focus, select:focus {
-            border-color: var(--brand);
-            background: white;
+            border-color: var(--brand); background: white;
             box-shadow: 0 0 0 4px rgba(108,93,211,.07);
         }
+        input.amber-input { background: var(--amber-bg); border-color: var(--amber-border); color: #78350f; }
+        input.amber-input:focus { border-color: var(--amber); box-shadow: 0 0 0 4px rgba(217,119,6,.07); }
+        input.amber-input::placeholder { color: #d97706; opacity: .5; }
 
-        /* Submit button */
+        /* Inline input+button */
+        .input-inline { display: flex; gap: .5rem; }
+        .input-inline input { flex: 1; min-width: 0; }
+        .btn-gen {
+            flex-shrink: 0; background: var(--brand-bg); border: 1.5px solid rgba(108,93,211,.2);
+            color: var(--brand); border-radius: 12px; padding: 0 .9rem;
+            font-size: .72rem; font-weight: 700; cursor: pointer;
+            transition: background .2s; white-space: nowrap;
+        }
+        .btn-gen:hover { background: rgba(108,93,211,.1); }
+
         .btn-primary {
-            width: 100%;
-            background: var(--brand);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: .95rem 1rem;
-            font-size: .78rem;
-            font-weight: 800;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-            cursor: pointer;
-            margin-top: .75rem;
+            width: 100%; background: var(--brand); color: white; border: none;
+            border-radius: 12px; padding: .95rem 1rem; font-size: .78rem; font-weight: 800;
+            letter-spacing: .08em; text-transform: uppercase; cursor: pointer; margin-top: .75rem;
             transition: background .2s, transform .1s, box-shadow .2s;
             box-shadow: 0 6px 20px rgba(108,93,211,.25);
         }
         .btn-primary:hover { background: var(--brand-dark); box-shadow: 0 8px 24px rgba(108,93,211,.35); }
         .btn-primary:active { transform: scale(.99); }
 
-        /* Switch role link */
-        .switch-role {
-            text-align: center;
-            margin-top: 1.25rem;
-        }
-        .switch-role a {
-            font-size: .75rem;
-            font-weight: 700;
-            color: var(--brand);
-            text-decoration: none;
-        }
+        .switch-role { text-align: center; margin-top: 1.25rem; }
+        .switch-role a { font-size: .75rem; font-weight: 700; color: var(--brand); text-decoration: none; }
         .switch-role a:hover { text-decoration: underline; }
 
-        /* Hidden */
         .hidden { display: none !important; }
     </style>
 </head>
@@ -238,7 +188,7 @@
                 <div class="r2"></div>
                 <div class="c"></div>
             </div>
-            <h1 class="brand-title">Test<span>Sphere</span><span class="brand-badge">Student</span></h1>
+            <h1 class="brand-title">Test<span>Sphere</span><span class="brand-badge">Lecturer</span></h1>
         </div>
 
         <!-- Card -->
@@ -254,13 +204,13 @@
             <!-- LOGIN VIEW -->
             <div id="login-view" role="tabpanel" aria-labelledby="tab-login">
                 <div class="form-heading">
-                    <h2>Welcome Back, Student</h2>
+                    <h2>Welcome Back, Lecturer</h2>
                     <p>Verify your credentials to access your Dashboard.</p>
                 </div>
                 <form id="login-form" novalidate>
                     <div class="form-group">
                         <label for="login-email">Email Address</label>
-                        <input type="email" id="login-email" required placeholder="student@sphere.edu" autocomplete="email">
+                        <input type="email" id="login-email" required placeholder="lecturer@sphere.edu" autocomplete="email">
                     </div>
                     <div class="form-group">
                         <label for="login-password">Password</label>
@@ -269,21 +219,21 @@
                     <button type="submit" class="btn-primary">Enter Dashboard</button>
                 </form>
                 <div class="switch-role">
-                    <a href="lecturer-login.html">Are you a Lecturer? Login here</a>
+                    <a href="login.html">Are you a Student? Login here</a>
                 </div>
             </div>
 
             <!-- SIGNUP VIEW -->
             <div id="signup-view" class="hidden" role="tabpanel" aria-labelledby="tab-signup">
                 <div class="form-heading">
-                    <h2>Set Up Student Account</h2>
-                    <p>Secure access for students.</p>
+                    <h2>Set Up Lecturer Account</h2>
+                    <p>Secure access for staff and faculty members.</p>
                 </div>
                 <form id="signup-form" novalidate>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="signup-name">Full Name</label>
-                            <input type="text" id="signup-name" required placeholder="Jane Doe" autocomplete="name">
+                            <input type="text" id="signup-name" required placeholder="Prof. Jane Doe" autocomplete="name">
                         </div>
                         <div class="form-group">
                             <label for="institution-field">Institution</label>
@@ -292,21 +242,19 @@
                     </div>
                     <div class="form-group">
                         <label for="signup-email">Email Address</label>
-                        <input type="email" id="signup-email" required placeholder="student@sphere.edu" autocomplete="email">
+                        <input type="email" id="signup-email" required placeholder="faculty@sphere.edu" autocomplete="email">
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="matric-field">Matric Number</label>
-                            <input type="text" id="matric-field" required placeholder="CSC/2022/001">
+                            <label for="staff-field">Staff ID Code</label>
+                            <div class="input-inline">
+                                <input type="text" id="staff-field" required placeholder="STF-XXXX">
+                                <button type="button" id="generate-code-btn" class="btn-gen">Generate</button>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="level-field">Current Level</label>
-                            <select id="level-field">
-                                <option>100 Level</option>
-                                <option>200 Level</option>
-                                <option>300 Level</option>
-                                <option>400 Level</option>
-                            </select>
+                            <label for="token-field" class="amber">Dept. Registration Key</label>
+                            <input type="text" id="token-field" required placeholder="Ask Admin for Key" class="amber-input">
                         </div>
                     </div>
                     <div class="form-row">
@@ -322,7 +270,7 @@
                     <button type="submit" id="submit-signup-btn" class="btn-primary">Complete Registration</button>
                 </form>
                 <div class="switch-role">
-                    <a href="lecturer-login.html">Are you a Lecturer? Register here</a>
+                    <a href="login.html">Are you a Student? Register here</a>
                 </div>
             </div>
 
@@ -354,6 +302,10 @@
 
             tabLogin.addEventListener('click', showLogin);
             tabSignup.addEventListener('click', showSignup);
+
+            document.getElementById('generate-code-btn').addEventListener('click', () => {
+                document.getElementById('staff-field').value = `STF-${Math.floor(1000 + Math.random() * 9000)}`;
+            });
 
             // Login submit
             document.getElementById('login-form').addEventListener('submit', async (e) => {
@@ -391,10 +343,10 @@
                     name:        document.getElementById('signup-name').value,
                     institution: document.getElementById('institution-field').value,
                     email:       document.getElementById('signup-email').value,
-                    role: 'student',
+                    role: 'lecturer',
                     password,
-                    matricNumber: document.getElementById('matric-field').value,
-                    level:        document.getElementById('level-field').value
+                    staffId:   document.getElementById('staff-field').value,
+                    deptToken: document.getElementById('token-field').value
                 };
                 const res  = await fetch('http://127.0.0.1:5000/api/auth/register', {
                     method: 'POST',
@@ -403,7 +355,7 @@
                 });
                 const data = await res.json();
                 if (data.success) {
-                    alert('Student account setup complete!');
+                    alert('Lecturer account setup complete!');
                     showLogin();
                     document.getElementById('signup-form').reset();
                 } else {

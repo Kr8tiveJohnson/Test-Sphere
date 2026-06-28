@@ -104,7 +104,12 @@ exports.getStudentDashboardTests = async (req, res) => {
                 questions: cleanQuestions // Purely questions and options only
             };
         });
-
+        
+if (!testId) {
+    return res.status(400).json({
+        message: 'Test ID required'
+    });
+}
         res.status(200).json(safeTests);
     } catch (error) {
         res.status(500).json({ error: error.message });

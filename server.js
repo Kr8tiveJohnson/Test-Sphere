@@ -21,7 +21,7 @@ require('./config/passport')(passport);
 
 // Configuration Layer for Middleware Matrix
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || 'http://127.0.0.1:5500',
+    origin: true, // Allow all origins for local development flexibility
     credentials: true
 }));
 app.use(express.json());
@@ -79,7 +79,10 @@ app.get('/api/health-check', async (req, res) => {
 
 // Mount all test-sphere endpoints under the "/api" root prefix
 app.use('/api', apiRoutes);
+const path = require('path');
 
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'views')));
 // ==========================================
 // 🚀 DEPLOYMENT RUNTIME INITIALIZATION
 // ==========================================
@@ -110,18 +113,25 @@ if (process.env.NODE_ENV !== 'production') {
         });
 }
 
-// server.js
-const path = require('path');
+// ==========================================
+// 🎨 FRONTEND VIEW ROUTING
+// ==========================================
 
-// Route: Serve the portal (The List of Tests)
-app.get('/portal', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'student', 'portal.html'));
-});
+// Student Routes
+app.get('/portal', (req, res) => res.sendFile(path.join(__dirname, 'views', 'student', 'portal.html')));
+app.get('/student/portal', (req, res) => res.sendFile(path.join(__dirname, 'views', 'student', 'portal.html')));
+
+// Lecturer Routes
+app.get('/lecturer/dashboard', (req, res) => res.sendFile(path.join(__dirname, 'views', 'lecturer', 'dashboard.html')));
+app.get('/lecturer/builder', (req, res) => res.sendFile(path.join(__dirname, 'views', 'lecturer', 'create-test.html')));
+
+// Admin Routes
+app.get('/admin/dashboard', (req, res) => res.sendFile(path.join(__dirname, 'views', 'admin', 'dashboard.html')));
 
 // Route: Serve the test-runner (The Assessment Engine)
 // This will work for any test: /test-runner?testId=1
 app.get('/test-runner', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'student', 'test-runner.html'));
+    res.sendFile(path.join(__dirname, 'views', 'student', 'test-portal.html'));
 });
 
 // In server.js

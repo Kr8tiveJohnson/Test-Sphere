@@ -24,7 +24,6 @@ const requireRole = (roles) => (req, res, next) => {
 // ==========================================
 router.post('/auth/register', authController.register);
 router.post('/auth/login', authController.login);
-router.post('/auth/verify-lecturer', authController.verifyLecturer);
 
 // ==========================================
 // 🔒 SECURE ADMIN ENDPOINTS
@@ -44,5 +43,5 @@ router.get('/lecturer/courses/:courseId/tests', requireAuth, requireRole(['lectu
 router.post('/student/submit', requireAuth, requireRole(['student']), studentController.submitTest);
 router.put('/student/profile/picture', requireAuth, requireRole(['student']), studentController.updateProfilePicture);
 router.get('/student/courses/:courseId/tests', requireAuth, requireRole(['student', 'admin']), studentController.getStudentDashboardTests); // 👈 ADD THIS SECURE LINE
-
+    // Removed undefined checkLecturerCode route
 module.exports = router;

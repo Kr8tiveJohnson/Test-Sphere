@@ -23,7 +23,7 @@
             const quizUi = document.getElementById('quiz-ui');
 
             try {
-                const response = await fetch(`/api/tests/fetch/${testId}`);
+                const response = await fetch(`http://127.0.0.1:5000/api/tests/fetch/${testId}`);
                 const data = await response.json();
 
                 if (data.success) {

@@ -3,80 +3,372 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="7; url=views/auth/login.html">
-    <title>Test Sphere — Loading Portal</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Test Sphere — Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* Custom Keyframe Animations matching your exact brand profile */
-        @keyframes pulse-glow {
-            0%, 100% { opacity: 0.15; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(1.05); }
-        }
-        .animate-pulse-glow {
-            animation: pulse-glow 2s infinite ease-in-out;
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --brand: #6c5dd3;
+            --brand-dark: #5b4cb8;
+            --brand-bg: #f0ebfa;
+            --text-dark: #1e1b4b;
         }
 
-        /* Unique Orbit Core Spin and Expand Animation */
-        @keyframes sphere-orbit-spin {
-            0% { transform: rotate(0deg) scale(0.96); }
-            50% { transform: rotate(180deg) scale(1.04); }
-            100% { transform: rotate(360deg) scale(0.96); }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--brand-bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
         }
-        .animate-sphere-orbit {
-            animation: sphere-orbit-spin 3s infinite cubic-bezier(0.4, 0, 0.2, 1);
+
+        /* ── BACKGROUND ORBS ── */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+        .orb-1 { width: clamp(200px,40vw,384px); height: clamp(200px,40vw,384px); background: var(--brand); top: 20%; left: 15%; opacity: .15; }
+        .orb-2 { width: clamp(200px,40vw,384px); height: clamp(200px,40vw,384px); background: #c4b5fd; bottom: 20%; right: 15%; opacity: .2; animation-delay: 1s; }
+
+        @keyframes pulse-glow {
+            0%,100% { opacity: .12; transform: scale(1); }
+            50% { opacity: .28; transform: scale(1.06); }
+        }
+
+        /* ══════════════════════════════════════
+           SPLASH SCREEN
+        ══════════════════════════════════════ */
+        #splash {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            background: var(--brand-bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            transition: opacity .6s ease, visibility .6s ease;
+        }
+        #splash.fade-out { opacity: 0; visibility: hidden; }
+
+        /* Orbit logo */
+        .splash-logo {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .splash-logo .ring-outer {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px dashed rgba(108,93,211,.35);
+            animation: spin 4s linear infinite;
+        }
+        .splash-logo .ring-inner {
+            position: absolute;
+            inset: 10px;
+            border-radius: 50%;
+            border: 2px solid var(--brand);
+            box-shadow: 0 0 18px rgba(108,93,211,.25);
+            animation: spin 2.5s linear infinite reverse;
+        }
+        .splash-logo .core {
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, var(--brand-dark), var(--brand));
+            border-radius: 50%;
+            box-shadow: 0 4px 20px rgba(108,93,211,.4);
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .splash-logo .ping {
+            width: 10px; height: 10px;
+            background: white;
+            border-radius: 50%;
+            animation: ping 1.2s cubic-bezier(0,0,.2,1) infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes ping {
+            0%    { transform: scale(1); opacity: 1; }
+            75%,100% { transform: scale(2); opacity: 0; }
+        }
+
+        .splash-title {
+            font-size: clamp(1.6rem, 5vw, 2.2rem);
+            font-weight: 900;
+            color: var(--text-dark);
+            letter-spacing: -0.03em;
+            text-align: center;
+        }
+        .splash-title span { color: var(--brand); }
+
+        .splash-sub {
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: #94a3b8;
+        }
+
+        /* Progress bar */
+        .splash-bar-wrap {
+            width: clamp(160px, 40vw, 240px);
+            height: 4px;
+            background: rgba(108,93,211,.12);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+        .splash-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--brand-dark), var(--brand), #a78bfa);
+            border-radius: 99px;
+            animation: fill-bar 3.6s cubic-bezier(.4,0,.2,1) forwards;
+        }
+        @keyframes fill-bar { to { width: 100%; } }
+
+        /* ══════════════════════════════════════
+           MAIN CONTENT (hidden until splash ends)
+        ══════════════════════════════════════ */
+        #main-content {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .5s ease .1s, visibility .5s ease .1s;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            min-height: 100vh;
+        }
+        #main-content.visible { opacity: 1; visibility: visible; }
+
+        .card-wrap {
+            width: 100%;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* Header */
+        .brand-header { text-align: center; }
+        .brand-orbit {
+            width: 56px;
+            height: 56px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            animation: spin 10s linear infinite;
+        }
+        .brand-orbit .r1 { position:absolute;inset:0;border-radius:50%;border:1.5px dashed rgba(108,93,211,.35); }
+        .brand-orbit .r2 { position:absolute;inset:8px;border-radius:50%;border:1.5px solid var(--brand); }
+        .brand-orbit .c  { width:20px;height:20px;background:linear-gradient(135deg,var(--brand-dark),var(--brand));border-radius:50%;box-shadow:0 3px 12px rgba(108,93,211,.35); }
+
+        .brand-name {
+            font-size: clamp(1.4rem, 5vw, 1.9rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            color: var(--text-dark);
+        }
+        .brand-name span { color: var(--brand); }
+        .brand-tagline {
+            font-size: .65rem;
+            font-weight: 700;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        /* Card */
+        .role-card {
+            width: 100%;
+            background: rgba(255,255,255,.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(226,232,240,.8);
+            border-radius: 28px;
+            padding: clamp(1.5rem, 5vw, 2.5rem);
+            box-shadow: 0 25px 60px -15px rgba(108,93,211,.12);
+        }
+
+        .role-heading {
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: #94a3b8;
+            text-align: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .role-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: .85rem;
+        }
+
+        .role-btn {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.1rem 1.4rem;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: .85rem;
+            letter-spacing: .04em;
+            transition: transform .15s, box-shadow .15s, background .15s;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+        }
+        .role-btn:active { transform: scale(.98); }
+
+        .role-btn-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+        }
+
+        .btn-student {
+            background: var(--brand);
+            color: white;
+            box-shadow: 0 8px 24px rgba(108,93,211,.28);
+        }
+        .btn-student:hover { background: var(--brand-dark); box-shadow: 0 12px 30px rgba(108,93,211,.38); transform: translateY(-1px); }
+        .btn-student .role-btn-icon { background: rgba(255,255,255,.2); }
+
+        .btn-lecturer {
+            background: white;
+            color: var(--text-dark);
+            border: 1.5px solid #e2e8f0;
+            box-shadow: 0 4px 16px rgba(0,0,0,.05);
+        }
+        .btn-lecturer:hover { background: #faf9ff; border-color: #c4b5fd; box-shadow: 0 8px 24px rgba(108,93,211,.1); transform: translateY(-1px); }
+        .btn-lecturer .role-btn-icon { background: var(--brand-bg); }
+
+        .btn-text { display: flex; flex-direction: column; gap: 2px; text-align: left; }
+        .btn-label { font-size: .85rem; font-weight: 800; }
+        .btn-desc { font-size: .68rem; font-weight: 500; opacity: .65; }
+
+        .btn-arrow { margin-left: auto; opacity: .5; font-size: .9rem; }
+
+        @media (min-width: 480px) {
+            .role-buttons { flex-direction: row; }
+            .role-btn { flex-direction: column; align-items: center; text-align: center; padding: 1.5rem 1rem; gap: .75rem; }
+            .btn-text { align-items: center; }
+            .btn-arrow { display: none; }
+            .role-btn-icon { width: 48px; height: 48px; font-size: 1.3rem; }
         }
     </style>
 </head>
-<body class="bg-[#f0ebfa] min-h-screen flex flex-col items-center justify-center relative overflow-hidden selection:bg-[#6c5dd3]/30">
+<body>
 
-    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-[#6c5dd3] rounded-full filter blur-[120px] animate-pulse-glow pointer-events-none"></div>
-    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-300 rounded-full filter blur-[120px] animate-pulse-glow pointer-events-none" style="animation-delay: 1s;"></div>
+    <!-- Background orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
 
-    <div class="relative z-10 flex flex-col items-center space-y-6 text-center px-6">
-        
-        <div class="h-20 w-20 relative flex items-center justify-center animate-sphere-orbit">
-            <div class="absolute inset-0 rounded-full border-2 border-dashed border-[#6c5dd3]/40"></div>
-            <div class="absolute inset-2 rounded-full border-2 border-[#6c5dd3] shadow-[0_0_15px_rgba(108,93,211,0.2)]"></div>
-            <div class="h-8 w-8 bg-gradient-to-tr from-[#5b4cb8] to-[#6c5dd3] rounded-full shadow-md relative z-10 flex items-center justify-center">
-                <div class="h-2 w-2 bg-white rounded-full animate-ping"></div>
+    <!-- ════════════ SPLASH SCREEN ════════════ -->
+    <div id="splash" role="status" aria-label="Loading Test Sphere">
+        <div class="splash-logo" aria-hidden="true">
+            <div class="ring-outer"></div>
+            <div class="ring-inner"></div>
+            <div class="core">
+                <div class="ping"></div>
             </div>
         </div>
-
-        <div class="space-y-2">
-            <h1 class="text-3xl font-black tracking-tight text-[#1e1b4b]">
-                Test<span class="text-[#6c5dd3]">Sphere</span>
-            </h1>
-            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-2">
-                Securing Assessment Environment
-            </p>
+        <div>
+            <div class="splash-title">Test<span>Sphere</span></div>
+            <div class="splash-sub">Securing Assessment Environment</div>
         </div>
-
-        <div class="w-48 h-1.5 bg-white rounded-full overflow-hidden border border-slate-200/60 relative shadow-inner">
-            <div class="h-full bg-[#6c5dd3] rounded-full absolute top-0 left-0 animate-[loading-bar_1.5s_infinite_ease-in-out]" style="width: 40%;"></div>
+        <div class="splash-bar-wrap" aria-hidden="true">
+            <div class="splash-bar"></div>
         </div>
     </div>
 
-    <div class="absolute bottom-8 left-0 right-0 text-center z-10">
-        <p class="text-[11px] font-medium text-slate-400">
-            Taking too long? <a href="views/auth/login.html" class="text-[#6c5dd3] hover:text-[#5b4cb8] font-bold underline transition-colors">Click here to manually redirect</a>
-        </p>
+    <!-- ════════════ MAIN CONTENT ════════════ -->
+    <div id="main-content" aria-hidden="true">
+        <div class="card-wrap">
+
+            <!-- Brand Header -->
+            <header class="brand-header">
+                <div class="brand-orbit" aria-hidden="true">
+                    <div class="r1"></div>
+                    <div class="r2"></div>
+                    <div class="c"></div>
+                </div>
+                <h1 class="brand-name">Test<span>Sphere</span></h1>
+                <p class="brand-tagline">Assessment Portal</p>
+            </header>
+
+            <!-- Role Card -->
+            <div class="role-card">
+                <p class="role-heading">Who are you?</p>
+                <div class="role-buttons">
+                    <a href="views/auth/login.html" class="role-btn btn-student" id="btn-student">
+                        <div class="role-btn-icon">🎓</div>
+                        <div class="btn-text">
+                            <span class="btn-label">Student</span>
+                            <span class="btn-desc">Take tests &amp; view results</span>
+                        </div>
+                        <span class="btn-arrow">→</span>
+                    </a>
+                    <a href="views/auth/lecturer-login.html" class="role-btn btn-lecturer" id="btn-lecturer">
+                        <div class="role-btn-icon">📋</div>
+                        <div class="btn-text">
+                            <span class="btn-label">Lecturer</span>
+                            <span class="btn-desc">Create &amp; manage assessments</span>
+                        </div>
+                        <span class="btn-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <script>
-        (function() {
-            // Suspends routing transition layout for exactly 6000 milliseconds (6 Seconds)
-            setTimeout(function() {
-                window.location.href = "views/auth/login.html";
-            }, 6000);
+        (function () {
+            const splash = document.getElementById('splash');
+            const main   = document.getElementById('main-content');
+
+            function revealMain() {
+                splash.classList.add('fade-out');
+                main.classList.add('visible');
+                main.removeAttribute('aria-hidden');
+                // Fully remove splash from accessibility tree after transition
+                setTimeout(() => splash.remove(), 700);
+            }
+
+            // Show main content after 4 seconds
+            setTimeout(revealMain, 4000);
         })();
     </script>
-
-    <style>
-        @keyframes loading-bar {
-            0% { left: -40%; }
-            50% { width: 60%; }
-            100% { left: 100%; }
-        }
-    </style>
 </body>
 </html>

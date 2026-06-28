@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Test Sphere Lecturer Control Hub — Manage tests and monitor students.">
     <title>Test Sphere — Lecturer Control Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- Tailwind CSS v4 Engine -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
@@ -16,7 +20,7 @@
         }
     </style>
 </head>
-<body class="bg-[#f0ebfa] text-slate-700 font-sans min-h-screen relative overflow-x-hidden selection:bg-[#6c5dd3]/30">
+<body class="bg-[#f0ebfa] text-slate-700 font-sans min-h-screen relative overflow-x-hidden selection:bg-[#6c5dd3]/30" style="font-family:'Inter',sans-serif">
 
     <!-- BACKGROUND BRANDED GLOW ORBS -->
     <div class="absolute top-0 right-0 w-[250px] sm:w-[500px] h-[250px] sm:h-[500px] bg-[#6c5dd3] rounded-full filter blur-[80px] sm:blur-[150px] animate-pulse-glow pointer-events-none z-0"></div>
@@ -157,15 +161,54 @@
             <main class="space-y-4">
                 <h3 class="text-xs font-black uppercase tracking-wider text-[#1e1b4b] px-1">Live Deployment Monitor Registry</h3>
                 
-                <!-- Card Component Array: Active Module Element -->
+                <!-- CSC 101 -->
                 <div class="bg-white border border-slate-200/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
                     <div class="flex flex-col sm:flex-row justify-between items-start gap-3 border-b border-slate-100 pb-3">
                         <div class="min-w-0 w-full">
                             <div class="flex flex-wrap items-center gap-2">
                                 <span class="text-[9px] font-black text-white bg-amber-500 px-1.5 py-0.5 rounded-md uppercase tracking-wider animate-pulse whitespace-nowrap">Live Test</span>
-                                <h4 class="text-xs sm:text-sm font-bold text-[#1e1b4b] truncate">CSC401 — First Semester Mid-Term</h4>
+                                <h4 class="text-xs sm:text-sm font-bold text-[#1e1b4b] truncate">CSC 101 — Introduction to Computing</h4>
                             </div>
-                            <p class="text-[11px] sm:text-xs text-slate-400 mt-1 truncate">Compiler Construction • Started 20 mins ago</p>
+                            <p class="text-[11px] sm:text-xs text-slate-400 mt-1 truncate">Basic Hardware Concepts • Started 45 mins ago</p>
+                        </div>
+                        <span class="text-[11px] font-bold text-[#6c5dd3] bg-[#f0ebfa] px-3 py-1 rounded-xl whitespace-nowrap self-start sm:self-auto">210 Students In Terminal</span>
+                    </div>
+                    <div class="flex flex-col xs:flex-row xs:justify-between xs:items-center gap-1 text-[11px] sm:text-xs">
+                        <span class="text-slate-400 font-medium">Progress Threshold Parameters:</span>
+                        <span class="font-bold text-[#1e1b4b]">92% Submission Rate</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div class="h-full bg-[#6c5dd3] rounded-full transition-all duration-500" style="width: 92%"></div>
+                    </div>
+                </div>
+
+                <!-- CSC 201 -->
+                <div class="bg-white border border-slate-200/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-sm space-y-3.5">
+                    <div class="flex flex-col sm:flex-row justify-between items-start gap-3 border-b border-slate-100 pb-3">
+                        <div class="min-w-0 w-full">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="text-[9px] font-black text-white bg-emerald-600 px-1.5 py-0.5 rounded-md uppercase tracking-wider whitespace-nowrap">Completed</span>
+                                <h4 class="text-xs sm:text-sm font-bold text-[#1e1b4b] truncate">CSC 201 — Computer Programming I</h4>
+                            </div>
+                            <p class="text-[11px] sm:text-xs text-slate-400 mt-1 truncate">Algorithms and Logic • Concluded yesterday</p>
+                        </div>
+                        <span class="text-[11px] font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-xl whitespace-nowrap self-start sm:self-auto">180 Submissions Logged</span>
+                    </div>
+                    <div class="flex flex-col xs:flex-row xs:justify-between xs:items-center gap-1 text-[11px] sm:text-xs">
+                        <span class="text-slate-400 font-medium">Grading Stack State:</span>
+                        <span class="font-bold text-emerald-600">All Credentials Marked & Synchronized</span>
+                    </div>
+                </div>
+
+                <!-- CSC 301 -->
+                <div class="bg-white border border-slate-200/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start gap-3 border-b border-slate-100 pb-3">
+                        <div class="min-w-0 w-full">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="text-[9px] font-black text-white bg-amber-500 px-1.5 py-0.5 rounded-md uppercase tracking-wider animate-pulse whitespace-nowrap">Live Test</span>
+                                <h4 class="text-xs sm:text-sm font-bold text-[#1e1b4b] truncate">CSC 301 — Operating System</h4>
+                            </div>
+                            <p class="text-[11px] sm:text-xs text-slate-400 mt-1 truncate">Memory Management • Started 20 mins ago</p>
                         </div>
                         <span class="text-[11px] font-bold text-[#6c5dd3] bg-[#f0ebfa] px-3 py-1 rounded-xl whitespace-nowrap self-start sm:self-auto">142 Students In Terminal</span>
                     </div>
@@ -178,21 +221,40 @@
                     </div>
                 </div>
 
-                <!-- Card Component Array: Completed Module Element -->
+                <!-- CSC 401 -->
                 <div class="bg-white border border-slate-200/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-sm space-y-3.5">
                     <div class="flex flex-col sm:flex-row justify-between items-start gap-3 border-b border-slate-100 pb-3">
                         <div class="min-w-0 w-full">
                             <div class="flex flex-wrap items-center gap-2">
                                 <span class="text-[9px] font-black text-white bg-emerald-600 px-1.5 py-0.5 rounded-md uppercase tracking-wider whitespace-nowrap">Completed</span>
-                                <h4 class="text-xs sm:text-sm font-bold text-[#1e1b4b] truncate">CSC305 — Network Configurations Validation</h4>
+                                <h4 class="text-xs sm:text-sm font-bold text-[#1e1b4b] truncate">CSC 401 — Compiler Construction</h4>
                             </div>
-                            <p class="text-[11px] sm:text-xs text-slate-400 mt-1 truncate">Data Communication & Networks • Concluded yesterday</p>
+                            <p class="text-[11px] sm:text-xs text-slate-400 mt-1 truncate">Lexical Analysis • Concluded last week</p>
                         </div>
-                        <span class="text-[11px] font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-xl whitespace-nowrap self-start sm:self-auto">198 Submissions Logged</span>
+                        <span class="text-[11px] font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-xl whitespace-nowrap self-start sm:self-auto">95 Submissions Logged</span>
                     </div>
                     <div class="flex flex-col xs:flex-row xs:justify-between xs:items-center gap-1 text-[11px] sm:text-xs">
                         <span class="text-slate-400 font-medium">Grading Stack State:</span>
                         <span class="font-bold text-emerald-600">All Credentials Marked & Synchronized</span>
+                    </div>
+                </div>
+
+                <!-- MTH 401, PHY 301, GST 311 (Mini Cards) -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-white border border-slate-200/80 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+                        <span class="text-[9px] font-black text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded-md uppercase tracking-wider self-start mb-2">Draft</span>
+                        <h4 class="text-xs font-bold text-[#1e1b4b] truncate">MTH 401</h4>
+                        <p class="text-[10px] text-slate-400">Advanced Calculus</p>
+                    </div>
+                    <div class="bg-white border border-slate-200/80 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+                        <span class="text-[9px] font-black text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded-md uppercase tracking-wider self-start mb-2">Draft</span>
+                        <h4 class="text-xs font-bold text-[#1e1b4b] truncate">PHY 301</h4>
+                        <p class="text-[10px] text-slate-400">Quantum Mechanics</p>
+                    </div>
+                    <div class="bg-white border border-slate-200/80 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+                        <span class="text-[9px] font-black text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded-md uppercase tracking-wider self-start mb-2">Draft</span>
+                        <h4 class="text-xs font-bold text-[#1e1b4b] truncate">GST 311</h4>
+                        <p class="text-[10px] text-slate-400">Entrepreneurship</p>
                     </div>
                 </div>
             </main>
